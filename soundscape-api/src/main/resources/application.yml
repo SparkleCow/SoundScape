@@ -1,0 +1,23 @@
+server: 8080
+
+spring:
+
+  application:
+    name: soundscape
+
+  servlet:
+    multipart:
+      max-file-size: 50MB
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/soundscape
+    username: postgres
+    password: Borman15
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
+
