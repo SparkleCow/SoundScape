@@ -1,6 +1,7 @@
-package com.sparklecow.soundscape.entities.song;
+package com.sparklecow.soundscape.entities.album;
 
 import com.sparklecow.soundscape.entities.artist.Artist;
+import com.sparklecow.soundscape.entities.song.Song;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,21 +13,20 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "songs")
-public class Song {
+@Table(name = "albums")
+public class Album {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @CreatedDate
@@ -37,31 +37,23 @@ public class Song {
     @Column(insertable = false)
     private LocalDateTime lastModifiedAt;
 
-    private String songName;
+    @Column(nullable = false, length = 30)
+    private String albumName;
+
+    private String coverImgUrl;
 
     private LocalDate releaseDate;
 
-    private LocalTime duration;
-
     private Boolean isExplicit;
 
-    private String lyrics;
-
-    private String producer;
-
-    @ElementCollection
-    @CollectionTable(
-            name = "streaming_urls",
-            joinColumns = @JoinColumn(name = "song_id")
-    )
-    @Column(name = "streaming_url")
-    private Map<String, String> streamingUrl = new HashMap<>();
+    @ManyToMany(mappedBy = "albums")
+    private List<Artist> artists = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(
-            name = "song_artists",
-            joinColumns = @JoinColumn(name = "song_id"),
-            inverseJoinColumns = @JoinColumn(name = "artist_id")
+            name = "album_songs",
+            joinColumns = @JoinColumn( name = "album_id"),
+            inverseJoinColumns = @JoinColumn( name = "song_id")
     )
-    private List<Artist> artists;
+    private List<Song> songs = new ArrayList<>();
 }
