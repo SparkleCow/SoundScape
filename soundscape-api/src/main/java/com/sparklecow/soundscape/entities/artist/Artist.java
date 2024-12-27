@@ -3,7 +3,7 @@ package com.sparklecow.soundscape.entities.artist;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sparklecow.soundscape.entities.album.Album;
 import com.sparklecow.soundscape.entities.user.User;
-import com.sparklecow.soundscape.models.Genre;
+import com.sparklecow.soundscape.models.common.Genre;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
