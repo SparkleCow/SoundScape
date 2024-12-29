@@ -5,10 +5,7 @@ import com.sparklecow.soundscape.entities.album.Album;
 import com.sparklecow.soundscape.entities.user.User;
 import com.sparklecow.soundscape.models.common.Genre;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -94,6 +91,9 @@ public class Artist {
     private String websiteUrl;
 
     public Long getFollowersCount() {
+        if (followers == null || followers.isEmpty()) {
+            return 0L;
+        }
         return (long) followers.size();
     }
 }

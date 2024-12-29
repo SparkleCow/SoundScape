@@ -3,9 +3,7 @@ package com.sparklecow.soundscape.services.mappers;
 import com.sparklecow.soundscape.entities.artist.Artist;
 import com.sparklecow.soundscape.models.artist.ArtistRequestDto;
 import com.sparklecow.soundscape.models.artist.ArtistResponseDto;
-import org.springframework.stereotype.Service;
 
-@Service
 public class ArtistMapper {
 
     public static ArtistResponseDto toArtistResponseDto(Artist artist){

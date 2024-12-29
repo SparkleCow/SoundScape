@@ -8,7 +8,6 @@ import com.sparklecow.soundscape.models.common.Genre;
 import com.sparklecow.soundscape.repositories.ArtistRepository;
 import com.sparklecow.soundscape.services.mappers.ArtistMapper;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -16,7 +15,6 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class ArtistServiceImp implements ArtistService{
 
     private final ArtistRepository artistRepository;
@@ -44,7 +42,7 @@ public class ArtistServiceImp implements ArtistService{
 
     @Override
     public List<ArtistResponseDto> findAll() {
-        return List.of();
+        return artistRepository.findAll().stream().map(ArtistMapper::toArtistResponseDto).toList();
     }
 
     @Override
