@@ -2,7 +2,7 @@ package com.sparklecow.soundscape.controllers;
 
 import com.sparklecow.soundscape.models.artist.ArtistRequestDto;
 import com.sparklecow.soundscape.models.artist.ArtistResponseDto;
-import com.sparklecow.soundscape.services.ArtistService;
+import com.sparklecow.soundscape.services.artist.ArtistService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -1,6 +1,5 @@
 package com.sparklecow.soundscape.entities.user;
 
-import com.sparklecow.soundscape.models.user.Role;
 import jakarta.persistence.*;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
@@ -13,6 +12,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.security.auth.Subject;
+import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -27,14 +28,14 @@ import java.util.Set;
 //This allows to have creation and update information for this class
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "users")
-public class User implements UserDetails {
+public class User implements UserDetails, Principal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @CreatedDate
-    @Column(insertable = false, updatable = false, nullable = false)
+    @Column(updatable = false, nullable = false)
     private LocalDateTime createdAt;
 
     @Column(nullable = true, insertable = false)
@@ -58,23 +59,23 @@ public class User implements UserDetails {
 
     private String country;
 
-    private Boolean isVerified;
+    private boolean isVerified = false;
 
-    private Boolean isEnabled = false;
+    private boolean isEnabled = false;
 
-    private Boolean isAccountExpired = false;
+    private boolean isAccountExpired = false;
 
-    private Boolean isAccountLocked = false;
+    private boolean isAccountLocked = false;
 
-    private Boolean isCredentialsExpired = false;
+    private boolean isCredentialsExpired = false;
 
     @Enumerated(EnumType.STRING)
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<Role> roles = new HashSet<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles.stream().map(x -> new SimpleGrantedAuthority(x.name())).toList();
+        return roles;
     }
 
     @Override
@@ -105,5 +106,15 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return isEnabled;
+    }
+
+    @Override
+    public String getName() {
+        return username;
+    }
+
+    @Override
+    public boolean implies(Subject subject) {
+        return Principal.super.implies(subject);
     }
 }

@@ -1,4 +1,4 @@
-package com.sparklecow.soundscape.services;
+package com.sparklecow.soundscape.services.common;
 
 import java.util.List;
 
