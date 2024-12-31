@@ -1,5 +1,6 @@
 package com.sparklecow.soundscape.models.user;
 
+import com.sparklecow.soundscape.entities.user.Role;
 import lombok.Builder;
 
 import java.time.LocalDate;

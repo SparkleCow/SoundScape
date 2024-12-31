@@ -1,8 +1,10 @@
 package com.sparklecow.soundscape.services.mappers;
 
+import com.sparklecow.soundscape.entities.user.Role;
 import com.sparklecow.soundscape.entities.user.User;
 import com.sparklecow.soundscape.models.user.UserRequestDto;
 import com.sparklecow.soundscape.models.user.UserResponseDto;
+import com.sparklecow.soundscape.repositories.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,8 +16,13 @@ import java.util.Set;
 public class UserMapper {
 
     private final PasswordEncoder passwordEncoder;
+    private final RoleRepository roleRepository;
 
     public User toUser(UserRequestDto userRequestDto){
+
+        Role role = roleRepository.findByRoleName("USER")
+                .orElseThrow(() -> new RuntimeException("Role USER not found")); // Maneja la excepción adecuadamente
+
         return User.builder()
                 .username(userRequestDto.username())
                 .email(userRequestDto.email())
@@ -24,7 +31,7 @@ public class UserMapper {
                 .country(userRequestDto.country())
                 .birthDate(userRequestDto.birthDate())
                 .password(passwordEncoder.encode(userRequestDto.password()))
-                .roles(Set.of(Role.USER))
+                .roles(Set.of(role))
                 .build();
     }
 

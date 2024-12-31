@@ -22,11 +22,30 @@ spring:
     properties:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
+  mail:
+    host: localhost
+    port: 1025
+    username: sparklecow
+    password: sparklecow
+    properties:
+      smtp:
+        trust: "*"
+      auth: true
+      starttls:
+        enable: true
+      connectiontimeout: 5000
+      timeout: 3000
+      writetimeput: 5000
+
 application:
   security:
     jwt:
       secret_key: 6ed1eb0150e8f8fb285ec976ce500807406933985fbea5086c690eb221e53f5a
       expiration: 8640000
+  mailing:
+    activation-url: http://localhost:4200/activate-account
+  upload-service:
+    upload-path: ./upload
 
 
 

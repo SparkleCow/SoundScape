@@ -1,5 +1,6 @@
 package com.sparklecow.soundscape.entities.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,6 +11,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Data
@@ -38,4 +41,8 @@ public class Role implements GrantedAuthority {
     public String getAuthority() {
         return roleName;
     }
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "roles")
+    private Set<User> users = new HashSet<>();
 }
