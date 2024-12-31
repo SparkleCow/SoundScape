@@ -1,4 +1,4 @@
-package com.sparklecow.soundscape.services;
+package com.sparklecow.soundscape.services.artist;
 
 import com.sparklecow.soundscape.entities.artist.Artist;
 import com.sparklecow.soundscape.models.artist.ArtistRequestDto;
@@ -15,7 +15,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ArtistServiceImp implements ArtistService{
+public class ArtistServiceImp implements ArtistService {
 
     private final ArtistRepository artistRepository;
 

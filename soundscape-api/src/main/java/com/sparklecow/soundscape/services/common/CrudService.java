@@ -1,10 +1,12 @@
-package com.sparklecow.soundscape.services;
+package com.sparklecow.soundscape.services.common;
+
+import jakarta.mail.MessagingException;
 
 import java.util.List;
 
 public interface CrudService <Request, Response, Update> {
 
-    Response create(Request request);
+    Response create(Request request) throws MessagingException;
 
     List<Response> findAll();
 
