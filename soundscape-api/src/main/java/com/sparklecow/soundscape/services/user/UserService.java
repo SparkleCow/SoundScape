@@ -14,4 +14,6 @@ public interface UserService extends CrudService<UserRequestDto, UserResponseDto
     String saveAndGenerateToken(User user);
 
     String generateToken(Integer tokenLength);
+
+    void validateToken(String token) throws MessagingException;
 }

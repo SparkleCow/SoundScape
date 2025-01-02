@@ -16,6 +16,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
@@ -85,6 +86,24 @@ public class UserServiceImp implements UserService {
             token.append(characters.charAt(randomIndex));
         }
         return token.toString();
+    }
+
+    @Override
+    @Transactional
+    public void validateToken(String tokenCode) throws MessagingException {
+        Token token = tokenRepository.findByToken(tokenCode).orElseThrow(() -> new RuntimeException(""));
+        if(token.getValidatedAt()!=null){
+            throw new RuntimeException("token has been validated before");
+        }
+        if(token.getExpiresAt().isBefore(LocalDateTime.now())){
+            sendValidation(token.getUser());
+            throw new RuntimeException("token has expired");
+        }
+        token.setValidatedAt(LocalDateTime.now());
+        User user = token.getUser();
+        user.setEnabled(true);
+        userRepository.save(user);
+        tokenRepository.save(token);
     }
 
     @Override
