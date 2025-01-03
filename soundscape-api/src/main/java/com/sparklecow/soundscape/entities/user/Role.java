@@ -43,7 +43,7 @@ public class Role implements GrantedAuthority {
     }
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
     private Set<User> users = new HashSet<>();
 
     // Override equals and hashCode, excluding the users field

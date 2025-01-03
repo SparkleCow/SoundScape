@@ -6,7 +6,9 @@ import com.sparklecow.soundscape.entities.user.User;
 import com.sparklecow.soundscape.models.common.Genre;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -35,6 +37,12 @@ public class Artist {
     @LastModifiedDate
     @Column(insertable = false)
     private LocalDateTime lastModifiedDate;
+
+    @CreatedBy
+    private Long createdBy;
+
+    @LastModifiedBy
+    private Long lastModifiedBy;
 
     @Column(name = "artist_name", length = 30, nullable = false, unique = true)
     private String artistName;
@@ -73,11 +81,6 @@ public class Artist {
     )
     @Column(name = "genre")
     private Set<Genre> genres = new HashSet<>();
-
-    @JsonIgnore
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private User user;
 
     @JsonIgnore
     @ManyToMany

@@ -1,5 +1,7 @@
 package com.sparklecow.soundscape.entities.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sparklecow.soundscape.entities.artist.Artist;
 import jakarta.persistence.*;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
@@ -15,9 +17,7 @@ import javax.security.auth.Subject;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Data
@@ -68,13 +68,23 @@ public class User implements UserDetails, Principal {
 
     private boolean isCredentialsExpired = false;
 
-    @ManyToMany
+    /*An user could have an artist profile created by itself. This artist account will
+    * be related to this user*/
+    @JsonIgnore
+    @OneToOne
+    @JoinColumn(name = "artist_id")
+    private Artist artist;
+
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns =  @JoinColumn(name = "role_id")
     )
     private Set<Role> roles = new HashSet<>();
+
+    @ManyToMany(mappedBy = "followers")
+    private List<Artist> followedArtist = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

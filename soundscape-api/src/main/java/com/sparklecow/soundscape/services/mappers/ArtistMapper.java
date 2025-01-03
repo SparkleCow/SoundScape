@@ -32,7 +32,6 @@ public class ArtistMapper {
                 .isVerified(false)
                 .socialMediaUrls(artistRequestDto.socialMediaUrls())
                 .genres(artistRequestDto.genres())
-                //TODO Set the user when logged
                 .websiteUrl(artistRequestDto.websiteUrl())
                 .build();
     }

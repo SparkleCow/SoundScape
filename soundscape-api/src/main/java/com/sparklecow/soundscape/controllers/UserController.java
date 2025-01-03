@@ -17,7 +17,7 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping
+    @PostMapping("/register")
     public ResponseEntity<UserResponseDto> registerUser(@RequestBody UserRequestDto userRequestDto) throws MessagingException {
         return ResponseEntity.ok(userService.create(userRequestDto));
     }
