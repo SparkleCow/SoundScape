@@ -6,6 +6,7 @@ import com.sparklecow.soundscape.entities.user.User;
 import com.sparklecow.soundscape.models.common.Genre;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -57,13 +58,13 @@ public class Artist {
 
     private Boolean isVerified;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinTable(
             name = "followers",
             joinColumns = @JoinColumn(name = "artist_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private List<User> followers = new ArrayList<>();
+    private Set<User> followers = new HashSet<>();
 
     @ElementCollection
     @CollectionTable(
@@ -99,4 +100,18 @@ public class Artist {
         }
         return (long) followers.size();
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Artist artist = (Artist) o;
+        return Objects.equals(id, artist.id);
+    }
+
 }

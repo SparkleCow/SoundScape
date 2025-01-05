@@ -24,4 +24,8 @@ public interface ArtistService extends CrudService<ArtistRequestDto, ArtistRespo
     ArtistResponseDto create(ArtistRequestDto artistRequestDto, User user);
 
     void addFollower(Long id, User user);
+
+    void removeFollower(Long id, User user);
+
+    void removeArtist(User user);
 }

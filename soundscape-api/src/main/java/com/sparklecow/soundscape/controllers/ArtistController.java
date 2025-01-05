@@ -23,7 +23,7 @@ public class ArtistController {
     private final UserService userService;
 
     /*This allows find artist based on their name. It will return a list of matches*/
-    @GetMapping("/find-artist")
+    @GetMapping
     public ResponseEntity<List<ArtistResponseDto>> findArtists(@RequestParam(required = false, name = "name") String artistName){
         if(artistName == null || artistName.isEmpty()){
             return ResponseEntity.ok(artistService.findAll());
@@ -32,10 +32,10 @@ public class ArtistController {
     }
 
     /*This method allows to create an artist based on the authenticated user. First it creates the artist, then use the
-    * authentication object and set the artist in our authenticated user. Finally it returns an artist DTO.*/
-    @PostMapping("/create")
+    * authentication object and set the artist in our authenticated user. Finally, it returns an artist DTO.*/
+    @PostMapping
     public ResponseEntity<ArtistResponseDto> createArtist(@RequestBody ArtistRequestDto artistRequestDto,
-                                                          Authentication authentication) throws MessagingException {
+                                                          Authentication authentication){
         User user = (User)authentication.getPrincipal();
         ArtistResponseDto artistResponseDto = artistService.create(artistRequestDto, user);
         Artist artist = artistService.findArtistByName(artistRequestDto.artistName());
@@ -43,12 +43,30 @@ public class ArtistController {
         return ResponseEntity.ok(artistResponseDto);
     }
 
-    @PostMapping("/add-follower/{id}")
+    /*This method allows to create artist without set it to a user. This method is useful for administrators and moderators.*/
+    @PostMapping("/admin")
+    public ResponseEntity<ArtistResponseDto> createArtist(@RequestBody ArtistRequestDto artistRequestDto) throws MessagingException {
+        ArtistResponseDto artistResponseDto = artistService.create(artistRequestDto);
+        return ResponseEntity.ok(artistResponseDto);
+    }
+
+    @PostMapping("/{id}/followers")
     public ResponseEntity<Void> addFollower(@PathVariable Long id,
                                             Authentication authentication){
         artistService.addFollower(id, (User) authentication.getPrincipal());
         return ResponseEntity.ok().build();
     }
 
+    @DeleteMapping("/{id}/followers")
+    public ResponseEntity<Void> removeFollower(@PathVariable Long id,
+                                            Authentication authentication){
+        artistService.removeFollower(id, (User) authentication.getPrincipal());
+        return ResponseEntity.ok().build();
+    }
 
+    @DeleteMapping("/me")
+    public ResponseEntity<Void> removeArtist(Authentication authentication){
+        artistService.removeArtist((User) authentication.getPrincipal());
+        return ResponseEntity.ok().build();
+    }
 }

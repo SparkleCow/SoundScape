@@ -11,6 +11,8 @@ import com.sparklecow.soundscape.repositories.UserRepository;
 import com.sparklecow.soundscape.services.mappers.ArtistMapper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.Hibernate;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -44,6 +46,7 @@ public class ArtistServiceImp implements ArtistService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public ArtistResponseDto create(ArtistRequestDto artistRequestDto) {
         Artist artist = ArtistMapper.toArtist(artistRequestDto);
         return ArtistMapper.toArtistResponseDto(artistRepository.save(artist));
@@ -69,6 +72,32 @@ public class ArtistServiceImp implements ArtistService {
 
         artist.getFollowers().add(user);
         artistRepository.save(artist); // It isnt necesary save the user explicitly
+    }
+
+    @Override
+    @Transactional
+    public void removeFollower(Long id, User user) {
+        Artist artist = artistRepository.findById(id).orElseThrow(() -> new RuntimeException("Artist not found"));
+
+        if (!artist.getFollowers().contains(user)) {
+            throw new RuntimeException("User is not a follower of this artist");
+        }
+
+        Hibernate.initialize(artist.getFollowers());
+
+        artist.getFollowers().remove(user);
+
+        artistRepository.save(artist);
+    }
+
+    /*Unlike deleteArtist method, this method also deletes the artist, but will be used by the user who owns the artist.*/
+    @Override
+    public void removeArtist(User user) {
+        if (user.getArtist() != null) {
+            artistRepository.deleteById(user.getArtist().getId());
+        } else {
+            throw new IllegalArgumentException("The user does not own the specified artist.");
+        }
     }
 
     @Override

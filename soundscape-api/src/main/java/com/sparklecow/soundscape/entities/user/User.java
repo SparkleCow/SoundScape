@@ -84,7 +84,7 @@ public class User implements UserDetails, Principal {
     private Set<Role> roles = new HashSet<>();
 
     @ManyToMany(mappedBy = "followers")
-    private List<Artist> followedArtist = new ArrayList<>();
+    private Set<Artist> followedArtist = new HashSet<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -130,4 +130,18 @@ public class User implements UserDetails, Principal {
     public boolean implies(Subject subject) {
         return Principal.super.implies(subject);
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id);
+    }
+
 }

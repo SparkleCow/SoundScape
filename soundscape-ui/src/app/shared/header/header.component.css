@@ -1,0 +1,17 @@
+.principal-header{
+  background-color: #010D26;
+}
+
+.principal-navbar{
+  background-color: #010D26;
+  color: #ffffff
+}
+
+.principal-navbar .navbar-brand,
+.principal-navbar .nav-link {
+  color: #ffffff;
+}
+
+.principal-navbar .navbar-toggler-icon {
+  background-color: #ffffff;
+}
