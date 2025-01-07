@@ -27,12 +27,12 @@ public class ArtistServiceImp implements ArtistService {
 
     @Override
     public List<ArtistResponseDto> findByArtistNameContaining(String artistName) {
-        return artistRepository.findByArtistNameContaining(artistName).stream().map(ArtistMapper::toArtistResponseDto).toList();
+        return artistRepository.findByArtistNameContainingIgnoreCase(artistName).stream().map(ArtistMapper::toArtistResponseDto).toList();
     }
 
     @Override
     public Artist findArtistByName(String artistName) {
-        return artistRepository.findByArtistName(artistName).orElseThrow(() -> new RuntimeException(""));
+        return artistRepository.findByArtistNameIgnoreCase(artistName).orElseThrow(() -> new RuntimeException(""));
     }
 
     @Override
@@ -55,7 +55,9 @@ public class ArtistServiceImp implements ArtistService {
     @Override
     @Transactional
     public ArtistResponseDto create(ArtistRequestDto artistRequestDto, User user) {
-        Artist artist = artistRepository.save(ArtistMapper.toArtist(artistRequestDto));
+        Artist artist = ArtistMapper.toArtist(artistRequestDto);
+        artist.setUser(user);
+        artistRepository.save(artist);
         user.setArtist(artist);
         userRepository.save(user);
         return ArtistMapper.toArtistResponseDto(artist);
@@ -84,20 +86,25 @@ public class ArtistServiceImp implements ArtistService {
         }
 
         Hibernate.initialize(artist.getFollowers());
-
         artist.getFollowers().remove(user);
-
         artistRepository.save(artist);
     }
 
     /*Unlike deleteArtist method, this method also deletes the artist, but will be used by the user who owns the artist.*/
+    @Transactional
     @Override
     public void removeArtist(User user) {
-        if (user.getArtist() != null) {
-            artistRepository.deleteById(user.getArtist().getId());
-        } else {
-            throw new IllegalArgumentException("The user does not own the specified artist.");
+
+        if (user.getArtist() == null) {
+            throw new IllegalArgumentException("The user does not have an artist linked.");
         }
+
+        Artist artist = user.getArtist();
+
+        user.setArtist(null);
+        userRepository.save(user);
+
+        artistRepository.deleteById(artist.getId());
     }
 
     @Override

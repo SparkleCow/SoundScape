@@ -68,11 +68,10 @@ public class User implements UserDetails, Principal {
 
     private boolean isCredentialsExpired = false;
 
-    /*An user could have an artist profile created by itself. This artist account will
+    /*A user could have an artist profile created by itself. This artist account will
     * be related to this user*/
     @JsonIgnore
-    @OneToOne
-    @JoinColumn(name = "artist_id")
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Artist artist;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -85,6 +84,9 @@ public class User implements UserDetails, Principal {
 
     @ManyToMany(mappedBy = "followers")
     private Set<Artist> followedArtist = new HashSet<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Token> tokens = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

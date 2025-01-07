@@ -6,7 +6,6 @@ import com.sparklecow.soundscape.entities.user.User;
 import com.sparklecow.soundscape.models.common.Genre;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.Cascade;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -58,7 +57,7 @@ public class Artist {
 
     private Boolean isVerified;
 
-    @ManyToMany(cascade = CascadeType.REMOVE)
+    @ManyToMany
     @JoinTable(
             name = "followers",
             joinColumns = @JoinColumn(name = "artist_id"),
@@ -83,8 +82,12 @@ public class Artist {
     @Column(name = "genre")
     private Set<Genre> genres = new HashSet<>();
 
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     @JsonIgnore
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "artist_album",
             joinColumns = @JoinColumn(name = "artist_id"),

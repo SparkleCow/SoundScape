@@ -7,7 +7,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -37,6 +39,12 @@ public class Album {
     @Column(insertable = false)
     private LocalDateTime lastModifiedAt;
 
+    @CreatedBy
+    private Long createdBy;
+
+    @LastModifiedBy
+    private Long lastModifiedBy;
+
     @Column(nullable = false, length = 30)
     private String albumName;
 
@@ -46,7 +54,7 @@ public class Album {
 
     private Boolean isExplicit;
 
-    @ManyToMany(mappedBy = "albums")
+    @ManyToMany(mappedBy = "albums", cascade = CascadeType.PERSIST)
     private List<Artist> artists = new ArrayList<>();
 
     @ManyToMany
@@ -56,4 +64,21 @@ public class Album {
             inverseJoinColumns = @JoinColumn( name = "song_id")
     )
     private List<Song> songs = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return "Album{" +
+                "id=" + id +
+                ", createdAt=" + createdAt +
+                ", lastModifiedAt=" + lastModifiedAt +
+                ", createdBy=" + createdBy +
+                ", lastModifiedBy=" + lastModifiedBy +
+                ", albumName='" + albumName + '\'' +
+                ", coverImgUrl='" + coverImgUrl + '\'' +
+                ", releaseDate=" + releaseDate +
+                ", isExplicit=" + isExplicit +
+                ", artists=" + (artists != null ? artists.size() : 0) +
+                ", songs=" + (songs != null ? songs.size() : 0) +
+                '}';
+    }
 }

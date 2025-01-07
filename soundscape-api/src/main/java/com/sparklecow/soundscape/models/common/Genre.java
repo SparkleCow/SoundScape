@@ -25,6 +25,7 @@ public enum Genre {
     INDIE_POP,
     INDIE_ROCK,
     ALTERNATIVE_ROCK,
+    ALTERNATIVE,
     NOISE_POP,
     JANGLE_POP,
     BRITPOP,

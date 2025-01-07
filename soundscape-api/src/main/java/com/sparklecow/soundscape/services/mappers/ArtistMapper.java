@@ -8,6 +8,7 @@ public class ArtistMapper {
 
     public static ArtistResponseDto toArtistResponseDto(Artist artist){
         return new ArtistResponseDto(
+                artist.getId(),
                 artist.getArtistName(),
                 artist.getDescription(),
                 artist.getProfileImageUrl(),
