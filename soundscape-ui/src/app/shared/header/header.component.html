@@ -1,37 +1,31 @@
 <header class="principal-header container-fluid d-flex justify-content-center">
-  <nav class="principal-navbar navbar navbar-expand-lg col-8">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">{{title}}</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Nuevos artistas</a>
-          </li>
-        </ul>
-      </div>
 
-      <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
+  <nav class="col-9 principal-navbar d-flex flex-row">
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link" href="#" tabindex="-1" aria-disabled="true">Login</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#" tabindex="-1" aria-disabled="true">Register</a>
-          </li>
-        </ul>
-      </div>
+    <div class="d-flex flex-row align-items-center col-6 justify-content-between">
+      <a><h2>{{title}}</h2></a>
+      <a>Home</a>
+      <a>Nuevos artistas</a>
+      <a>Nuevos albums</a>
     </div>
+
+    <div class="d-flex flex-row align-items-center col-3 justify-content-center">
+      <form class="d-flex flex-row col-8" action="/search" method="GET">
+        <input type="search" name="query" class="rounded" placeholder="Buscar" aria-label="Search" aria-describedby="search-addon" required>
+        <button type="submit" class="btn btn-outline-primary" data-mdb-ripple-init>Buscar</button>
+      </form>
+    </div>
+
+    <div class="d-flex flex-row align-items-center col-3 justify-content-around">
+      @if (isAuthenticated==false) {
+        <a (click)="navegateToLogin()">Login</a>
+        <a (click)="navegateToRegister()">Registrarse</a>
+      }@else {
+        <a>Perfil</a>
+      }
+    </div>
+
+
   </nav>
 </header>
 
