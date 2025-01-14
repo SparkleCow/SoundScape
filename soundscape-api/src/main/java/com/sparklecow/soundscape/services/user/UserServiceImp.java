@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -104,6 +105,14 @@ public class UserServiceImp implements UserService {
         user.setEnabled(true);
         userRepository.save(user);
         tokenRepository.save(token);
+    }
+
+    @Override
+    public UserResponseDto getUserInformation(Authentication authentication) {
+        if(authentication==null){
+            throw new RuntimeException("There is no user logged");
+        }
+        return userMapper.toUserResponseDto((User) authentication.getPrincipal());
     }
 
     @Override

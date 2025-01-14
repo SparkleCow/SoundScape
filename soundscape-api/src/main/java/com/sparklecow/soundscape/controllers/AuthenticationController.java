@@ -1,9 +1,6 @@
 package com.sparklecow.soundscape.controllers;
 
-import com.sparklecow.soundscape.models.user.AuthenticationRequestDto;
-import com.sparklecow.soundscape.models.user.AuthenticationResponseDto;
-import com.sparklecow.soundscape.models.user.UserRequestDto;
-import com.sparklecow.soundscape.models.user.UserResponseDto;
+import com.sparklecow.soundscape.models.user.*;
 import com.sparklecow.soundscape.services.user.UserService;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
@@ -28,9 +25,9 @@ public class AuthenticationController {
         return ResponseEntity.ok(userService.login(authenticationRequestDto));
     }
 
-    @PostMapping("/validateToken")
-    public ResponseEntity<Void> validateToken(@RequestParam String token) throws MessagingException {
-        userService.validateToken(token);
+    @PostMapping("/validate-token")
+    public ResponseEntity<Void> validateToken(@RequestBody TokenRequest tokenRequest) throws MessagingException {
+        userService.validateToken(tokenRequest.token());
         return ResponseEntity.ok().build();
     }
 }

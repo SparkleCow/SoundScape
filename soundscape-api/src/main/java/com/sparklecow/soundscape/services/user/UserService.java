@@ -4,6 +4,7 @@ import com.sparklecow.soundscape.entities.user.User;
 import com.sparklecow.soundscape.models.user.*;
 import com.sparklecow.soundscape.services.common.CrudService;
 import jakarta.mail.MessagingException;
+import org.springframework.security.core.Authentication;
 
 public interface UserService extends CrudService<UserRequestDto, UserResponseDto, UserUpdateDto> {
 
@@ -16,4 +17,6 @@ public interface UserService extends CrudService<UserRequestDto, UserResponseDto
     String generateToken(Integer tokenLength);
 
     void validateToken(String token) throws MessagingException;
+
+    UserResponseDto getUserInformation(Authentication authentication);
 }

@@ -38,7 +38,7 @@ public class AlbumServiceImp implements AlbumService{
     }
 
     /*This method allows to create an album to the logged admin. It won't use the administrator account
-    * for create it, it will require a list of strings that matches with the artist names in database.*/
+    * for linked it, it will require a list of strings that matches with the artist names in database.*/
     @Override
     public AlbumResponseDto create(AlbumRequestDto albumRequestDto) {
         Album album = albumRepository.save(albumMapper.toAlbum(albumRequestDto));
@@ -52,7 +52,8 @@ public class AlbumServiceImp implements AlbumService{
 
     @Override
     public List<AlbumResponseDto> findByArtistNameContaining(String artistName) {
-        return albumRepository.findByArtistsArtistNameContainingIgnoreCase(artistName).stream().map(albumMapper::toAlbumResponseDto).toList();
+        return albumRepository.findByArtistsArtistNameContainingIgnoreCase(artistName)
+                .stream().map(albumMapper::toAlbumResponseDto).toList();
     }
 
     @Override

@@ -8,7 +8,8 @@ import { LoginComponent } from './pages/login/login.component';
 import { MainComponent } from './pages/main/main.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { ReactiveFormsModule } from '@angular/forms'; // Importa ReactiveFormsModule
-import { provideHttpClient } from '@angular/common/http';  // Importar provideHttpClient
+import { provideHttpClient } from '@angular/common/http';
+import { ActivationComponent } from './pages/activation/activation.component';  // Importar provideHttpClient
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { provideHttpClient } from '@angular/common/http';  // Importar provideHt
     HeaderComponent,
     LoginComponent,
     MainComponent,
-    RegisterComponent
+    RegisterComponent,
+    ActivationComponent
   ],
   imports: [
     BrowserModule,

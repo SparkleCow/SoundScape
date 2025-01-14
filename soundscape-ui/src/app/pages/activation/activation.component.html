@@ -1,0 +1,33 @@
+<section class="h-100 bg-dark">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-lg-6 col-md-8 col-sm-10">
+        <div class="card card-verification my-4">
+          <div class="card-body p-md-5 text-black">
+            <h3 class="mb-5 text-uppercase">Verificación de Código</h3>
+            <p class="mb-4">Ingresa el código de 6 dígitos se ha enviado a tu correo:</p>
+
+            <form (ngSubmit)="onSubmit()" class="verification-form d-flex justify-content-between">
+              <input type="text" maxlength="1" class="form-control form-control-lg text-center"
+                     (input)="onInputChange($event, 0)" #digit0 />
+              <input type="text" maxlength="1" class="form-control form-control-lg text-center"
+                     (input)="onInputChange($event, 1)" #digit1 />
+              <input type="text" maxlength="1" class="form-control form-control-lg text-center"
+                     (input)="onInputChange($event, 2)" #digit2 />
+              <input type="text" maxlength="1" class="form-control form-control-lg text-center"
+                     (input)="onInputChange($event, 3)" #digit3 />
+              <input type="text" maxlength="1" class="form-control form-control-lg text-center"
+                     (input)="onInputChange($event, 4)" #digit4 />
+              <input type="text" maxlength="1" class="form-control form-control-lg text-center"
+                     (input)="onInputChange($event, 5)" #digit5 />
+            </form>
+
+            <div class="d-flex justify-content-end pt-4">
+              <button type="submit" class="btn btn-warning btn-lg" (click)="onSubmit()">Verificar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

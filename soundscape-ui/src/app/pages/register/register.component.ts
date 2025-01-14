@@ -33,7 +33,7 @@ export class RegisterComponent {
         next: (response) => {
           console.log('Registro exitoso:', response);
           alert('Usuario registrado con éxito');
-          this.navigateToLogin();
+          this.navigateToValidateToken();
         },
         error: (error) => {
           console.error('Error en el registro:', error);
@@ -50,7 +50,7 @@ export class RegisterComponent {
     this.userForm.reset();
   }
 
-  navigateToLogin(){
-    this.router.navigate(["/login"]);
+  navigateToValidateToken(){
+    this.router.navigate(["/activate-token"]);
   }
 }
