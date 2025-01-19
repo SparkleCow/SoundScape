@@ -12,6 +12,9 @@ import com.sparklecow.soundscape.services.mappers.UserMapper;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -116,8 +119,9 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public List<UserResponseDto> findAll() {
-        return List.of();
+    public Page<UserResponseDto> findAll(Pageable pageable) {
+        List<UserResponseDto> emptyList = List.of();
+        return new PageImpl<>(emptyList, pageable, 0);
     }
 
     @Override

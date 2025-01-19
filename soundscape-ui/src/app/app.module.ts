@@ -7,9 +7,12 @@ import { HeaderComponent } from './shared/header/header.component';
 import { LoginComponent } from './pages/login/login.component';
 import { MainComponent } from './pages/main/main.component';
 import { RegisterComponent } from './pages/register/register.component';
-import { ReactiveFormsModule } from '@angular/forms'; // Importa ReactiveFormsModule
-import { provideHttpClient } from '@angular/common/http';
-import { ActivationComponent } from './pages/activation/activation.component';  // Importar provideHttpClient
+import { ReactiveFormsModule } from '@angular/forms';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { ActivationComponent } from './pages/activation/activation.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
+import { AuthInterceptor } from './core/interceptor/auth.interceptor';
 
 
 @NgModule({
@@ -24,11 +27,14 @@ import { ActivationComponent } from './pages/activation/activation.component';  
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
   ],
   providers: [
     provideClientHydration(),
-    provideHttpClient()
+    provideHttpClient(withInterceptorsFromDi()),
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

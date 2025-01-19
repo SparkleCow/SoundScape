@@ -1,14 +1,14 @@
 package com.sparklecow.soundscape.services.common;
 
 import jakarta.mail.MessagingException;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface CrudService <Request, Response, Update> {
 
     Response create(Request request) throws MessagingException;
 
-    List<Response> findAll();
+    Page<Response> findAll(Pageable pageable);
 
     Response findById(Long id);
 

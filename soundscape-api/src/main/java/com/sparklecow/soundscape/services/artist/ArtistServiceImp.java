@@ -12,11 +12,12 @@ import com.sparklecow.soundscape.services.mappers.ArtistMapper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.Hibernate;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -26,24 +27,30 @@ public class ArtistServiceImp implements ArtistService {
     private final UserRepository userRepository;
 
     @Override
-    public List<ArtistResponseDto> findByArtistNameContaining(String artistName) {
-        return artistRepository.findByArtistNameContainingIgnoreCase(artistName).stream().map(ArtistMapper::toArtistResponseDto).toList();
+    public Page<ArtistResponseDto> findByArtistNameContaining(String artistName,  Pageable pageable) {
+        // The map method used here belongs to the Page class from Spring Data JPA.
+        // This is different from the map method of the Stream API.
+        return artistRepository.findByArtistNameContainingIgnoreCase(artistName, pageable).map(ArtistMapper::toArtistResponseDto);
     }
+
+    /*Upon receiving the genre value from artist controller, this method maps that value into a Genre enum and uses it in the repository*/
+    @Override
+    public Page<ArtistResponseDto> findArtistByGenre(String genre, Pageable pageable) {
+        Genre genreEnum = Genre.valueOf(genre);
+        return artistRepository.findByGenresContaining(genreEnum, pageable).map(ArtistMapper::toArtistResponseDto);
+    }
+
+    @Override
+    public Page<ArtistResponseDto> findArtistByDebutYear(LocalDate debutYear, Pageable pageable) {
+        return artistRepository.findByDebutYear(debutYear, pageable).map(ArtistMapper::toArtistResponseDto);
+    }
+
 
     @Override
     public Artist findArtistByName(String artistName) {
         return artistRepository.findByArtistNameIgnoreCase(artistName).orElseThrow(() -> new RuntimeException(""));
     }
 
-    @Override
-    public List<ArtistResponseDto> findArtistByGenre(Genre genre) {
-        return List.of();
-    }
-
-    @Override
-    public List<ArtistResponseDto> findArtistByDebutYear(LocalDate debutYear) {
-        return List.of();
-    }
 
     @Override
     @PreAuthorize("hasRole('ADMIN')")
@@ -108,8 +115,8 @@ public class ArtistServiceImp implements ArtistService {
     }
 
     @Override
-    public List<ArtistResponseDto> findAll() {
-        return artistRepository.findAll().stream().map(ArtistMapper::toArtistResponseDto).toList();
+    public Page<ArtistResponseDto> findAll(Pageable pageable) {
+        return artistRepository.findAll(pageable).map(ArtistMapper::toArtistResponseDto);
     }
 
     @Override

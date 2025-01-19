@@ -1,12 +1,13 @@
 import { AuthenticationRequestDto } from './../models/AuthenticationRequestDto';
 import { UserRequestDto } from './../models/UserRequestDto';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment';
-import { Observable, tap } from 'rxjs';
+import { catchError, Observable, tap, throwError } from 'rxjs';
 import { AuthenticationResponseDto } from '../models/AuthenticationResponseDto';
 import { UserResponseDto } from '../models/UserResponseDto';
 import { TokenRequestDto } from '../models/TokenRequestDto';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,8 @@ export class AuthenticationService {
   private readonly apiUrl: string;
   private readonly authenticationPath = '/auth';
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient,
+              private toastr: ToastrService){
     this.apiUrl = environment.apiUrl
   }
 
@@ -35,7 +37,23 @@ export class AuthenticationService {
   }
 
   validateToken$(token: TokenRequestDto): Observable<any>{
-    return this.httpClient.post<any>(`${this.apiUrl}${this.authenticationPath}/validateToken`, token);
+    return this.httpClient.post<any>(`${this.apiUrl}${this.authenticationPath}/validate-token`, token);
+  }
+
+  getUserInformation$(): Observable<UserResponseDto> {
+    return this.httpClient.get<UserResponseDto>(`${this.apiUrl}/user`)
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          if (error.status === 401) {
+            this.toastr.error('No hay usuario autenticado');
+          }
+          return throwError(() => new Error('Error al obtener la información del usuario'));
+        })
+      );
+  }
+
+  isAuthenticated(): boolean {
+    return !!localStorage.getItem("token");
   }
 
   get token(){
@@ -43,3 +61,4 @@ export class AuthenticationService {
   }
 
 }
+

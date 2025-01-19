@@ -16,15 +16,20 @@
       </form>
     </div>
 
-    <div class="d-flex flex-row align-items-center col-3 justify-content-around">
-      @if (isAuthenticated==false) {
-        <a (click)="navegateToLogin()">Login</a>
-        <a (click)="navegateToRegister()">Registrarse</a>
-      }@else {
-        <a>Perfil</a>
-      }
-    </div>
-
+    @if(isLoading==false){
+      <div class="d-flex flex-row align-items-center col-3 justify-content-around">
+        @if (isAuthenticated==false) {
+          <a (click)="navegateToLogin()">Login</a>
+          <a (click)="navegateToRegister()">Registrarse</a>
+        }@else {
+          <p>Bienvendo {{username}}</p>
+          <a>Perfil</a>
+          <div class="profile-image">
+            <img src={{profileImgUrl}} height="100%" style="border-radius: 50%; object-fit: cover;">
+          </div>
+        }
+      </div>
+    }
 
   </nav>
 </header>

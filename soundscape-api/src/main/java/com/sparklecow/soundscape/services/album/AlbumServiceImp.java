@@ -5,10 +5,14 @@ import com.sparklecow.soundscape.entities.artist.Artist;
 import com.sparklecow.soundscape.models.album.AlbumRequestDto;
 import com.sparklecow.soundscape.models.album.AlbumResponseDto;
 import com.sparklecow.soundscape.models.album.AlbumUpdateDto;
+import com.sparklecow.soundscape.models.user.UserResponseDto;
 import com.sparklecow.soundscape.repositories.AlbumRepository;
 import com.sparklecow.soundscape.repositories.ArtistRepository;
 import com.sparklecow.soundscape.services.mappers.AlbumMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -57,8 +61,9 @@ public class AlbumServiceImp implements AlbumService{
     }
 
     @Override
-    public List<AlbumResponseDto> findAll() {
-        return List.of();
+    public Page<AlbumResponseDto> findAll(Pageable pageable) {
+        List<AlbumResponseDto> emptyList = List.of();
+        return new PageImpl<>(emptyList, pageable, 0);
     }
 
     @Override
