@@ -1,0 +1,18 @@
+<div class="artist-carrusel-container container-fluid">
+  <div class="artist-carrusel container col-6 d-flex flex-row">
+    @for(artist of artists; track artist.id){
+      <div class="card mx-1" style="width: 14rem;">
+        <img src={{artist.profileImageUrl}} class="card-img-top" alt="..."
+             style="height: 200px; object-fit: cover;">
+        <div class="card-body">
+          <h5 class="card-title">{{artist.artistName}}</h5>
+          <p class="card-text text-truncate">{{artist.description}}</p>
+          <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+      </div>
+
+    } @empty {
+      <li>There are no items.</li>
+    }
+  </div>
+</div>

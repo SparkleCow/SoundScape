@@ -12,6 +12,7 @@ import com.sparklecow.soundscape.services.mappers.AlbumMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +30,7 @@ public class AlbumServiceImp implements AlbumService{
     @Override
     public AlbumResponseDto create(AlbumRequestDto albumRequestDto, String artistName) {
 
-        Artist artist = artistRepository.findByArtistNameContainingIgnoreCase(artistName)
+        Artist artist = artistRepository.findByArtistNameContainingIgnoreCase(artistName, PageRequest.of(1,1))
                 .stream().findFirst().orElseThrow(() -> new RuntimeException("Artist not found"));
 
         Album album = albumMapper.toAlbum(albumRequestDto, artist);
@@ -51,12 +52,12 @@ public class AlbumServiceImp implements AlbumService{
 
     @Override
     public List<AlbumResponseDto> findRecentAlbums() {
-        return albumRepository.findTop20ByOrderByCreatedAtDesc().stream().map(albumMapper::toAlbumResponseDto).toList();
+        return albumRepository.findTop20ByOrderByCreatedAtDesc(PageRequest.of(1,1)).stream().map(albumMapper::toAlbumResponseDto).toList();
     }
 
     @Override
     public List<AlbumResponseDto> findByArtistNameContaining(String artistName) {
-        return albumRepository.findByArtistsArtistNameContainingIgnoreCase(artistName)
+        return albumRepository.findByArtistsArtistNameContainingIgnoreCase(artistName, PageRequest.of(1,1))
                 .stream().map(albumMapper::toAlbumResponseDto).toList();
     }
 

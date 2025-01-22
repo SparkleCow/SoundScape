@@ -21,7 +21,24 @@ public class UserMapper {
     public User toUser(UserRequestDto userRequestDto){
 
         Role role = roleRepository.findByRoleName("USER")
-                .orElseThrow(() -> new RuntimeException("Role USER not found")); // Maneja la excepción adecuadamente
+                .orElseThrow(() -> new RuntimeException("Role USER not found"));
+
+        return User.builder()
+                .username(userRequestDto.username())
+                .email(userRequestDto.email())
+                .firstName(userRequestDto.firstName())
+                .lastName(userRequestDto.lastName())
+                .country(userRequestDto.country())
+                .birthDate(userRequestDto.birthDate())
+                .password(passwordEncoder.encode(userRequestDto.password()))
+                .roles(Set.of(role))
+                .build();
+    }
+
+    public User toAdmin(UserRequestDto userRequestDto){
+
+        Role role = roleRepository.findByRoleName("ADMIN")
+                .orElseThrow(() -> new RuntimeException("Role ADMIN not found"));
 
         return User.builder()
                 .username(userRequestDto.username())

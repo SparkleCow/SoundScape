@@ -15,6 +15,11 @@ public class AuthenticationController {
 
     private final UserService userService;
 
+    @PostMapping("/admin/register")
+    public ResponseEntity<UserResponseDto> registerAdmin(@RequestBody UserRequestDto userRequestDto) throws MessagingException {
+        return ResponseEntity.ok(userService.createAdmin(userRequestDto));
+    }
+
     @PostMapping("/register")
     public ResponseEntity<UserResponseDto> registerUser(@RequestBody UserRequestDto userRequestDto) throws MessagingException {
         return ResponseEntity.ok(userService.create(userRequestDto));

@@ -13,7 +13,6 @@ import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,11 +23,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImp implements UserService {
+public class UserServiceImp implements UserService{
 
     private final UserRepository userRepository;
     private final AuthenticationManager authenticationManager;
@@ -50,6 +49,19 @@ public class UserServiceImp implements UserService {
         UserDetails user = userRepository.findByUsername(authenticationRequestDto.username())
                 .orElseThrow(() -> new RuntimeException("User not found"));
         return new AuthenticationResponseDto(jwtUtils.generateToken(user));
+    }
+
+    @Override
+    public UserResponseDto createAdmin(UserRequestDto userRequestDto) throws MessagingException {
+        User user = userMapper.toAdmin(userRequestDto);
+        userRepository.save(user);
+        sendValidation(user);
+        return userMapper.toUserResponseDto(user);
+    }
+
+    @Override
+    public Page<UserResponseDto> findByUsername(String username, Pageable pageable) {
+        return userRepository.findByUsernameContainingIgnoreCase(username, pageable).map(userMapper::toUserResponseDto);
     }
 
     @Override
@@ -120,8 +132,7 @@ public class UserServiceImp implements UserService {
 
     @Override
     public Page<UserResponseDto> findAll(Pageable pageable) {
-        List<UserResponseDto> emptyList = List.of();
-        return new PageImpl<>(emptyList, pageable, 0);
+        return userRepository.findAll(pageable).map(userMapper::toUserResponseDto);
     }
 
     @Override
@@ -136,6 +147,11 @@ public class UserServiceImp implements UserService {
 
     @Override
     public void deleteById(Long id) {
+        Optional<User> userOpt = userRepository.findById(id);
+        if(userOpt.isEmpty()){
+            throw new RuntimeException("User not found");
+        }
+        userRepository.deleteById(id);
 
     }
 }

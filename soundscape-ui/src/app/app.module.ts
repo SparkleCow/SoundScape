@@ -13,6 +13,7 @@ import { ActivationComponent } from './pages/activation/activation.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { AuthInterceptor } from './core/interceptor/auth.interceptor';
+import { ArtistCarruselComponent } from './shared/artist-carrusel/artist-carrusel.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { AuthInterceptor } from './core/interceptor/auth.interceptor';
     LoginComponent,
     MainComponent,
     RegisterComponent,
-    ActivationComponent
+    ActivationComponent,
+    ArtistCarruselComponent
   ],
   imports: [
     BrowserModule,

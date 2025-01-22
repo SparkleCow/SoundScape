@@ -1,5 +1,6 @@
+import { ArtistResponseDto } from '../../models/ArtistResponseDto';
+import { ArtistService } from './../../services/artist.service';
 import { Component, OnInit } from '@angular/core';
-import { AlbumResponseDto } from '../../models/AlbumResponseDto';
 
 @Component({
   selector: 'app-main',
@@ -8,11 +9,20 @@ import { AlbumResponseDto } from '../../models/AlbumResponseDto';
 })
 export class MainComponent implements OnInit{
 
-  albums: AlbumResponseDto[] = [];
+  artists: ArtistResponseDto[] = [];
 
-  constructor(private ){}
+  constructor(private _artistService: ArtistService){}
 
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+    this.loadArtist();
+  }
+
+  loadArtist(){
+    this._artistService.findArtists$().subscribe({
+      next: (page) => {
+        this.artists = page.content;
+        console.log(this.artists);
+      }
+    });
   }
 }

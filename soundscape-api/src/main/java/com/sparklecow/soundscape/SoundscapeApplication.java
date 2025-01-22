@@ -21,9 +21,14 @@ public class SoundscapeApplication {
 	@Bean
 	public CommandLineRunner commandLineRunner(RoleRepository roleRepository) {
 		return args -> {
-			Optional<Role> role = roleRepository.findByRoleName("USER");
-			if(role.isEmpty()){
+			Optional<Role> roleUser = roleRepository.findByRoleName("USER");
+			Optional<Role> roleAdmin = roleRepository.findByRoleName("ADMIN");
+
+			if(roleUser.isEmpty()){
 				roleRepository.save(Role.builder().roleName("USER").build());
+			}
+			if(roleAdmin.isEmpty()){
+				roleRepository.save(Role.builder().roleName("ADMIN").build());
 			}
 		};
 	}
