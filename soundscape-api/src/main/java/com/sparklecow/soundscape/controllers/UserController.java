@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin("*")
 public class UserController {
 
+    /*Size of pagination elements*/
     private final Integer SIZE = 20;
     private final UserService userService;
 

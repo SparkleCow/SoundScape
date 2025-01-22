@@ -52,6 +52,12 @@ public class ArtistController {
         return ResponseEntity.ok(artistService.findByArtistNameContaining(artistName, pageable));
     }
 
+    /*Returns the artist account linked to the logged user*/
+    @GetMapping("/me")
+    public ResponseEntity<ArtistResponseDto> getArtistAccount(Authentication authentication){
+        return ResponseEntity.ok(artistService.getArtistAccount((User) authentication));
+    }
+
     @PostMapping("/{id}/followers")
     public ResponseEntity<Void> addFollower(@PathVariable Long id,
                                             Authentication authentication){
@@ -66,6 +72,7 @@ public class ArtistController {
         return ResponseEntity.ok().build();
     }
 
+    /*Deletes the artist account linked to the logged user*/
     @DeleteMapping("/me")
     public ResponseEntity<Void> removeArtist(Authentication authentication){
         artistService.removeArtist((User) authentication.getPrincipal());

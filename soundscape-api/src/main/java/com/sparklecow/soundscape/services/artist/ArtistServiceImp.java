@@ -45,6 +45,10 @@ public class ArtistServiceImp implements ArtistService {
         return artistRepository.findByDebutYear(debutYear, pageable).map(ArtistMapper::toArtistResponseDto);
     }
 
+    @Override
+    public ArtistResponseDto getArtistAccount(User user) {
+        return ArtistMapper.toArtistResponseDto(user.getArtist());
+    }
 
     @Override
     public Artist findArtistByName(String artistName) {

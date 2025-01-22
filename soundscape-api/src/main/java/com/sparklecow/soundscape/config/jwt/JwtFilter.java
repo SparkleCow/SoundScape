@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -29,6 +30,16 @@ public class JwtFilter extends OncePerRequestFilter {
 
         if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
             response.setStatus(HttpServletResponse.SC_OK);
+            return;
+        }
+
+        /*Ignores JWT validations from the matches list. This is useful to avoid problems with the expired JWT or an authorization header
+        * empty. This will be used in login, register and validate-token endpoints*/
+        List<String> publicEndpoints = List.of("/auth/validate-token", "/auth/login", "/auth/register");
+
+        String requestURI = request.getRequestURI();
+        if (publicEndpoints.stream().anyMatch(requestURI::startsWith)) {
+            filterChain.doFilter(request, response);
             return;
         }
 

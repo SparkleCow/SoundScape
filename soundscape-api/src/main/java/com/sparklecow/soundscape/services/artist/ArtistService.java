@@ -21,6 +21,8 @@ public interface ArtistService extends CrudService<ArtistRequestDto, ArtistRespo
 
     Page<ArtistResponseDto> findArtistByDebutYear(LocalDate debutYear, Pageable pageable);
 
+    ArtistResponseDto getArtistAccount(User user);
+
     Artist findArtistByName(String artistName);
 
     void addFollower(Long id, User user);

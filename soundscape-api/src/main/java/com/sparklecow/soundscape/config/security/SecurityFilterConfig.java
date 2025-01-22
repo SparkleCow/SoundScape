@@ -38,7 +38,11 @@ public class SecurityFilterConfig {
                         .requestMatchers("/user/me").authenticated()
                         .requestMatchers("/user").hasAuthority("ADMIN")
 
-                        .requestMatchers("/artist").permitAll()
+                        .requestMatchers("/artist/admin").hasAuthority("ADMIN")
+                        .requestMatchers("/artist/me").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/artist").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/artist").permitAll()
+
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session
