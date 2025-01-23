@@ -1,12 +1,35 @@
-.card {
-  background-color: #f5f5f5;
+.artist-carrusel-container {
+  background-color: #272727;
+  padding: 20px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.artist-carrusel {
+  background-color: #1d1d1d;
+  display: flex;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  padding-bottom: 10px;
 }
 
 .card {
+  animation: scroll 40s linear infinite;
+  -webkit-animation: scroll 40s linear infinite;
   background-color: #333;
   color: white;
+  margin-right: 10px;
+  flex-shrink: 0;
 }
 
-.card-container {
-  background-color: #f5f5f5;
+@keyframes scroll {
+  0%{
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+  }
+  100%{
+    -webkit-transform: translateX(calc(-16rem * 8));
+    transform: translateX(calc(-16rem * 8));
+  }
 }
+

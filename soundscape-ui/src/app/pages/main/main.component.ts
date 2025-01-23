@@ -21,7 +21,6 @@ export class MainComponent implements OnInit{
     this._artistService.findArtists$().subscribe({
       next: (page) => {
         this.artists = page.content;
-        console.log(this.artists);
       }
     });
   }

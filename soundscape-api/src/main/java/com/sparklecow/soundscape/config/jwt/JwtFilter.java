@@ -1,5 +1,7 @@
 package com.sparklecow.soundscape.config.jwt;
 
+import com.sparklecow.soundscape.exceptions.ExpiredTokenException;
+import com.sparklecow.soundscape.exceptions.InvalidTokenException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,7 +16,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -33,17 +34,7 @@ public class JwtFilter extends OncePerRequestFilter {
             return;
         }
 
-        /*Ignores JWT validations from the matches list. This is useful to avoid problems with the expired JWT or an authorization header
-        * empty. This will be used in login, register and validate-token endpoints*/
-        List<String> publicEndpoints = List.of("/auth/validate-token", "/auth/login", "/auth/register");
-
-        String requestURI = request.getRequestURI();
-        if (publicEndpoints.stream().anyMatch(requestURI::startsWith)) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-
-        if (request.getRequestURI().contains("/auth")) {
+        if (isPublicEndpoint(request)) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -55,17 +46,32 @@ public class JwtFilter extends OncePerRequestFilter {
         }
 
         String jwt = token.substring(7);
+        String username = null;
 
-        String username = jwtUtils.extractUsername(jwt);
+        try {
+            username = jwtUtils.extractUsername(jwt);
+        } catch (InvalidTokenException e) {
+            handleException(response, "Token is not valid", HttpServletResponse.SC_UNAUTHORIZED);
+            return;
+        } catch (ExpiredTokenException e) {
+            handleException(response, "Token has expired", HttpServletResponse.SC_UNAUTHORIZED);
+            return;
+        }
+
         UserDetails user = userDetailsService.loadUserByUsername(username);
 
-        if(SecurityContextHolder.getContext().getAuthentication() != null || user == null){
+        if(SecurityContextHolder.getContext().getAuthentication() != null){
             filterChain.doFilter(request, response);
             return;
         }
 
-        if(!jwtUtils.validateToken(user, jwt)){
-            filterChain.doFilter(request, response);
+        try {
+            jwtUtils.validateToken(jwt, user);
+        } catch (ExpiredTokenException e) {
+            handleException(response, "Token has expired", HttpServletResponse.SC_UNAUTHORIZED);
+            return;
+        } catch (InvalidTokenException e) {
+            handleException(response, "Token is not valid", HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }
 
@@ -78,5 +84,33 @@ public class JwtFilter extends OncePerRequestFilter {
         SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 
         filterChain.doFilter(request,response);
+    }
+
+    /**
+     * This method allows to continue with the filter if the endpoint is public, otherwise it will validate whether the token is valid or not.
+     * This is useful because for public endpoints it is irrelevant to know whether token exist, is empty or is valid */
+    private boolean isPublicEndpoint(HttpServletRequest request) {
+        String requestURI = request.getRequestURI();
+        String httpMethod = request.getMethod();
+        return (requestURI.equals("/artist") && httpMethod.equals("GET")) ||
+                requestURI.startsWith("/auth/validate-token") ||
+                requestURI.startsWith("/auth/login") ||
+                requestURI.startsWith("/auth/register");
+    }
+
+    /**
+     * Handles exceptions by returning a specific error message and status code in the HTTP response.
+     * This method is used to standardize error responses in the JWT filter.
+     *
+     * @param response    The HttpServletResponse object used to send the error response.
+     * @param message     The error message to be included in the response body.
+     * @param statusCode  The HTTP status code to be set in the response (e.g., 401 for unauthorized).
+     */
+    private void handleException(HttpServletResponse response, String message, int statusCode) throws IOException {
+        response.setStatus(statusCode);
+        response.setContentType("application/json");
+        /*The use of \" is to escape double quotes within the string,
+        since quotes are necessary to correctly represent the JSON format.*/
+        response.getWriter().write("{\"error\": \"" + message + "\"}");
     }
 }

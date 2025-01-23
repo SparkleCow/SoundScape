@@ -1,7 +1,7 @@
 <div class="artist-carrusel-container container-fluid">
-  <div class="artist-carrusel container col-6 d-flex flex-row">
-    @for(artist of artists; track artist.id){
-      <div class="card mx-1" style="width: 20rem;">
+  <div class="artist-carrusel container col-8 d-flex flex-row" #carrusel>
+    @for(artist of duplicatedArtists; track $index){
+      <div class="card mx-1" style="width: 15rem; flex-shrink: 0;">
         <img src={{artist.profileImageUrl}} class="card-img-top" alt="..."
              style="height: 200px; object-fit: cover;">
         <div class="card-body">
@@ -10,7 +10,6 @@
           <a href="#" class="btn btn-primary">Go somewhere</a>
         </div>
       </div>
-
     } @empty {
       <li>There are no items.</li>
     }

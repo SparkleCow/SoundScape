@@ -21,6 +21,8 @@ import org.springframework.web.filter.CorsFilter;
 @RequiredArgsConstructor
 public class SecurityFilterConfig {
 
+    private static final String ADMIN_ROLE = "ADMIN";
+
     private final JwtFilter jwtFilter;
     private final AuthenticationProvider authenticationProvider;
 
@@ -30,15 +32,15 @@ public class SecurityFilterConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/admin/register").hasAuthority("ADMIN")
+                        .requestMatchers("/auth/admin/register").hasAuthority(ADMIN_ROLE)
                         .requestMatchers("/auth/**").permitAll()
 
                         .requestMatchers("/user/delete/me").authenticated()
-                        .requestMatchers("/user/delete/**").hasAuthority("ADMIN")
+                        .requestMatchers("/user/delete/**").hasAuthority(ADMIN_ROLE)
                         .requestMatchers("/user/me").authenticated()
-                        .requestMatchers("/user").hasAuthority("ADMIN")
+                        .requestMatchers("/user").hasAuthority(ADMIN_ROLE)
 
-                        .requestMatchers("/artist/admin").hasAuthority("ADMIN")
+                        .requestMatchers("/artist/admin").hasAuthority(ADMIN_ROLE)
                         .requestMatchers("/artist/me").authenticated()
                         .requestMatchers(HttpMethod.POST, "/artist").authenticated()
                         .requestMatchers(HttpMethod.GET, "/artist").permitAll()
