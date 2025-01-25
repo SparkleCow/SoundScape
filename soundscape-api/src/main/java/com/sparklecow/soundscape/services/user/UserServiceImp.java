@@ -3,6 +3,10 @@ package com.sparklecow.soundscape.services.user;
 import com.sparklecow.soundscape.config.jwt.JwtUtils;
 import com.sparklecow.soundscape.entities.user.Token;
 import com.sparklecow.soundscape.entities.user.User;
+import com.sparklecow.soundscape.exceptions.ExpiredTokenException;
+import com.sparklecow.soundscape.exceptions.IllegalOperationException;
+import com.sparklecow.soundscape.exceptions.InvalidTokenException;
+import com.sparklecow.soundscape.exceptions.TokenNotFoundException;
 import com.sparklecow.soundscape.models.email.EmailTemplateName;
 import com.sparklecow.soundscape.models.user.*;
 import com.sparklecow.soundscape.repositories.TokenRepository;
@@ -17,7 +21,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,17 +44,11 @@ public class UserServiceImp implements UserService{
     @Value("${application.mailing.activation-url}")
     private String activationUrl;
 
-    @Override
-    public AuthenticationResponseDto login(AuthenticationRequestDto authenticationRequestDto) {
-        UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
-                authenticationRequestDto.username(), authenticationRequestDto.password()
-        );
-
-        authenticationManager.authenticate(auth);
-
-        UserDetails user = userRepository.findByUsername(authenticationRequestDto.username())
-                .orElseThrow(() -> new RuntimeException("User not found"));
-        return new AuthenticationResponseDto(jwtUtils.generateToken(user));
+    public AuthenticationResponseDto login(AuthenticationRequestDto authenticationRequestDto) throws AuthenticationException{
+        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                authenticationRequestDto.username(), authenticationRequestDto.password());
+        UserDetails userDetails  = (UserDetails)  authenticationManager.authenticate(authToken).getPrincipal();
+        return new AuthenticationResponseDto(jwtUtils.generateToken(userDetails));
     }
 
     @Override
@@ -107,13 +107,14 @@ public class UserServiceImp implements UserService{
     @Override
     @Transactional
     public void validateToken(String tokenCode) throws MessagingException {
-        Token token = tokenRepository.findByToken(tokenCode).orElseThrow(() -> new RuntimeException(""));
+        Token token = tokenRepository.findByToken(tokenCode).orElseThrow(() -> new TokenNotFoundException("Token not found"));
+
         if(token.getValidatedAt()!=null){
-            throw new RuntimeException("token has been validated before");
+            throw new InvalidTokenException("Token has been validated before");
         }
         if(token.getExpiresAt().isBefore(LocalDateTime.now())){
             sendValidation(token.getUser());
-            throw new RuntimeException("token has expired");
+            throw new ExpiredTokenException("Token has expired");
         }
         token.setValidatedAt(LocalDateTime.now());
         User user = token.getUser();
@@ -125,7 +126,7 @@ public class UserServiceImp implements UserService{
     @Override
     public UserResponseDto getUserInformation(Authentication authentication) {
         if(authentication==null){
-            throw new RuntimeException("There is no user logged");
+            throw new IllegalOperationException("Authentication request cannot be null");
         }
         return userMapper.toUserResponseDto((User) authentication.getPrincipal());
     }
@@ -137,7 +138,8 @@ public class UserServiceImp implements UserService{
 
     @Override
     public UserResponseDto findById(Long id) {
-        return null;
+        return userMapper.toUserResponseDto( userRepository.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("User with id "+id+" not found")));
     }
 
     @Override
@@ -149,9 +151,8 @@ public class UserServiceImp implements UserService{
     public void deleteById(Long id) {
         Optional<User> userOpt = userRepository.findById(id);
         if(userOpt.isEmpty()){
-            throw new RuntimeException("User not found");
+            throw new UsernameNotFoundException("User with id "+id+" not found");
         }
         userRepository.deleteById(id);
-
     }
 }

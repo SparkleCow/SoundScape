@@ -5,13 +5,11 @@ import com.sparklecow.soundscape.entities.artist.Artist;
 import com.sparklecow.soundscape.models.album.AlbumRequestDto;
 import com.sparklecow.soundscape.models.album.AlbumResponseDto;
 import com.sparklecow.soundscape.models.album.AlbumUpdateDto;
-import com.sparklecow.soundscape.models.user.UserResponseDto;
 import com.sparklecow.soundscape.repositories.AlbumRepository;
 import com.sparklecow.soundscape.repositories.ArtistRepository;
 import com.sparklecow.soundscape.services.mappers.AlbumMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -52,7 +50,7 @@ public class AlbumServiceImp implements AlbumService{
 
     @Override
     public List<AlbumResponseDto> findRecentAlbums() {
-        return albumRepository.findTop20ByOrderByCreatedAtDesc(PageRequest.of(1,1)).stream().map(albumMapper::toAlbumResponseDto).toList();
+        return albumRepository.findAllByCreatedAtDesc(PageRequest.of(1,1)).stream().map(albumMapper::toAlbumResponseDto).toList();
     }
 
     @Override
@@ -63,8 +61,7 @@ public class AlbumServiceImp implements AlbumService{
 
     @Override
     public Page<AlbumResponseDto> findAll(Pageable pageable) {
-        List<AlbumResponseDto> emptyList = List.of();
-        return new PageImpl<>(emptyList, pageable, 0);
+        return albumRepository.findAll(pageable).map(albumMapper::toAlbumResponseDto);
     }
 
     @Override

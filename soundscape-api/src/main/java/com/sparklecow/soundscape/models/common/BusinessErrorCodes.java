@@ -20,7 +20,8 @@ public enum BusinessErrorCodes {
     INTERNAL_SERVER_ERROR(500, HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error"),
     MESSAGE_ERROR(500,  HttpStatus.INTERNAL_SERVER_ERROR, "Error sending message"),
     ROLE_NOT_FOUND(404, HttpStatus.NOT_FOUND, "Role not found"),
-    ILLEGAL_OPERATION(403, HttpStatus.FORBIDDEN, "Illegal operation");
+    ILLEGAL_OPERATION(403, HttpStatus.FORBIDDEN, "Illegal operation"),
+    ARTIST_NOT_FOUND(404, HttpStatus.NOT_FOUND, "Artist not found");
 
     private final int errorCode;
     private final HttpStatus httpStatus;

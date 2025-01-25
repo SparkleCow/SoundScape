@@ -5,7 +5,6 @@ import jakarta.mail.MessagingException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -13,6 +12,17 @@ import static com.sparklecow.soundscape.models.common.BusinessErrorCodes.*;
 
 @RestControllerAdvice
 public class ControllerAdvice {
+
+    @ExceptionHandler(ArtistNotFoundException.class)
+    public ResponseEntity<ExceptionResponse> handleArtistNotFoundException(ArtistNotFoundException e){
+        return ResponseEntity
+                .status(ARTIST_NOT_FOUND.getHttpStatus())
+                .body(ExceptionResponse.builder()
+                        .businessErrorCode(ARTIST_NOT_FOUND.getErrorCode())
+                        .businessErrorDescription(ARTIST_NOT_FOUND.getMessage() + " " +e.getMessage())
+                        .message(e.getMessage())
+                        .build());
+    }
 
     @ExceptionHandler(MessagingException.class)
     public ResponseEntity<ExceptionResponse> handleMessagingException(MessagingException e){
@@ -32,17 +42,6 @@ public class ControllerAdvice {
                 .body(ExceptionResponse.builder()
                         .businessErrorCode(ACCOUNT_DISABLED.getErrorCode())
                         .businessErrorDescription(ACCOUNT_DISABLED.getMessage() + " " +e.getMessage())
-                        .message(e.getMessage())
-                        .build());
-    }
-
-    @ExceptionHandler(AuthenticationException.class)
-    public ResponseEntity<ExceptionResponse> handleAuthenticationException(AuthenticationException e){
-        return ResponseEntity
-                .status(BAD_CREDENTIALS.getHttpStatus())
-                .body(ExceptionResponse.builder()
-                        .businessErrorCode(BAD_CREDENTIALS.getErrorCode())
-                        .businessErrorDescription(BAD_CREDENTIALS.getMessage() + " " +e.getMessage())
                         .message(e.getMessage())
                         .build());
     }
@@ -98,6 +97,28 @@ public class ControllerAdvice {
                 .body(ExceptionResponse.builder()
                         .businessErrorCode(TOKEN_EXPIRED.getErrorCode())
                         .businessErrorDescription(TOKEN_EXPIRED.getMessage() + " " +e.getMessage())
+                        .message(e.getMessage())
+                        .build());
+    }
+
+    @ExceptionHandler(ExpiredTokenException.class)
+    public ResponseEntity<ExceptionResponse> handleExpiredTokenException(ExpiredTokenException e){
+        return ResponseEntity
+                .status(TOKEN_EXPIRED.getHttpStatus())
+                .body(ExceptionResponse.builder()
+                        .businessErrorCode(TOKEN_EXPIRED.getErrorCode())
+                        .businessErrorDescription(TOKEN_EXPIRED.getMessage() + " " +e.getMessage())
+                        .message(e.getMessage())
+                        .build());
+    }
+
+    @ExceptionHandler(InvalidTokenException.class)
+    public ResponseEntity<ExceptionResponse> handleInvalidTokenException(InvalidTokenException e){
+        return ResponseEntity
+                .status(TOKEN_INVALID.getHttpStatus())
+                .body(ExceptionResponse.builder()
+                        .businessErrorCode(TOKEN_INVALID.getErrorCode())
+                        .businessErrorDescription(TOKEN_INVALID.getMessage() + " " +e.getMessage())
                         .message(e.getMessage())
                         .build());
     }
