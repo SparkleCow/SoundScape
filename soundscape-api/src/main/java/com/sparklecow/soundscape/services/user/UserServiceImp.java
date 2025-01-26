@@ -3,10 +3,7 @@ package com.sparklecow.soundscape.services.user;
 import com.sparklecow.soundscape.config.jwt.JwtUtils;
 import com.sparklecow.soundscape.entities.user.Token;
 import com.sparklecow.soundscape.entities.user.User;
-import com.sparklecow.soundscape.exceptions.ExpiredTokenException;
-import com.sparklecow.soundscape.exceptions.IllegalOperationException;
-import com.sparklecow.soundscape.exceptions.InvalidTokenException;
-import com.sparklecow.soundscape.exceptions.TokenNotFoundException;
+import com.sparklecow.soundscape.exceptions.*;
 import com.sparklecow.soundscape.models.email.EmailTemplateName;
 import com.sparklecow.soundscape.models.user.*;
 import com.sparklecow.soundscape.repositories.TokenRepository;
@@ -52,10 +49,14 @@ public class UserServiceImp implements UserService{
     }
 
     @Override
-    public UserResponseDto createAdmin(UserRequestDto userRequestDto) throws MessagingException {
+    public UserResponseDto createAdmin(UserRequestDto userRequestDto){
         User user = userMapper.toAdmin(userRequestDto);
         userRepository.save(user);
-        sendValidation(user);
+        try{
+            sendValidation(user);
+        } catch (MessagingException e) {
+            throw new EmailSendingException(e.getMessage());
+        }
         return userMapper.toUserResponseDto(user);
     }
 
@@ -65,10 +66,14 @@ public class UserServiceImp implements UserService{
     }
 
     @Override
-    public UserResponseDto create(UserRequestDto userRequestDto) throws MessagingException {
+    public UserResponseDto create(UserRequestDto userRequestDto){
         User user = userMapper.toUser(userRequestDto);
         userRepository.save(user);
-        sendValidation(user);
+        try{
+            sendValidation(user);
+        } catch (MessagingException e) {
+            throw new EmailSendingException(e.getMessage());
+        }
         return userMapper.toUserResponseDto(user);
     }
 

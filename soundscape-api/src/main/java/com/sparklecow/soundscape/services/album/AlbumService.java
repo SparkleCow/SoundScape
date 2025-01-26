@@ -1,18 +1,19 @@
 package com.sparklecow.soundscape.services.album;
 
-
+import com.sparklecow.soundscape.entities.user.User;
 import com.sparklecow.soundscape.models.album.AlbumRequestDto;
 import com.sparklecow.soundscape.models.album.AlbumResponseDto;
 import com.sparklecow.soundscape.models.album.AlbumUpdateDto;
 import com.sparklecow.soundscape.services.common.CrudService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 
 public interface AlbumService extends CrudService<AlbumRequestDto, AlbumResponseDto, AlbumUpdateDto> {
 
-    AlbumResponseDto create(AlbumRequestDto albumRequestDto, String artistName);
+    AlbumResponseDto create(AlbumRequestDto albumRequestDto, User user);
 
-    List<AlbumResponseDto> findRecentAlbums();
+    Page<AlbumResponseDto> findByAlbumNameContaining(String albumName, Pageable pageable);
 
-    List<AlbumResponseDto> findByArtistNameContaining(String artistName);
+    Page<AlbumResponseDto> findByArtistNameContaining(String artistName, Pageable pageable);
 }

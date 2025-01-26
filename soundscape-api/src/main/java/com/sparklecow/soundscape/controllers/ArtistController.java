@@ -5,7 +5,6 @@ import com.sparklecow.soundscape.models.artist.ArtistRequestDto;
 import com.sparklecow.soundscape.models.artist.ArtistResponseDto;
 import com.sparklecow.soundscape.services.artist.ArtistService;
 import com.sparklecow.soundscape.services.user.UserService;
-import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,9 +21,8 @@ import org.springframework.web.bind.annotation.*;
 public class ArtistController {
 
     /*Size of pagination elements*/
-    private final Integer SIZE = 20;
+    private static final Integer SIZE = 20;
     private final ArtistService artistService;
-    private final UserService userService;
 
     /*This method allows to create an artist based on the authenticated user. First it creates the artist, then use the
      * authentication object and set the artist in our authenticated user. Finally, it returns an artist DTO.*/
@@ -37,7 +35,7 @@ public class ArtistController {
 
     /*This method allows to create artist without set it to a user. This method is useful for administrators and moderators.*/
     @PostMapping("/admin")
-    public ResponseEntity<ArtistResponseDto> createArtist(@RequestBody ArtistRequestDto artistRequestDto) throws MessagingException {
+    public ResponseEntity<ArtistResponseDto> createArtist(@RequestBody ArtistRequestDto artistRequestDto){
         ArtistResponseDto artistResponseDto = artistService.create(artistRequestDto);
         return ResponseEntity.ok(artistResponseDto);
     }

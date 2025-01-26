@@ -2,6 +2,8 @@ package com.sparklecow.soundscape.services.mappers;
 
 import com.sparklecow.soundscape.entities.album.Album;
 import com.sparklecow.soundscape.entities.artist.Artist;
+import com.sparklecow.soundscape.exceptions.ArtistNotFoundException;
+import com.sparklecow.soundscape.exceptions.IllegalOperationException;
 import com.sparklecow.soundscape.models.album.AlbumRequestDto;
 import com.sparklecow.soundscape.models.album.AlbumResponseDto;
 import com.sparklecow.soundscape.repositories.ArtistRepository;
@@ -16,7 +18,6 @@ public class AlbumMapper {
     private final ArtistRepository artistRepository;
 
     public Album toAlbum(AlbumRequestDto albumRequestDto, Artist artist) {
-
         return Album.builder()
                 .albumName(albumRequestDto.albumName())
                 .coverImgUrl(albumRequestDto.coverImgUrl())
@@ -27,16 +28,12 @@ public class AlbumMapper {
     }
 
     public Album toAlbum(AlbumRequestDto albumRequestDto){
-
-        List<Artist> artistsList;
-
         if (albumRequestDto.artists().isEmpty()) {
-            throw new RuntimeException("");
+            throw new IllegalOperationException("As an administrator, albums require a list of artist names to linked to.");
         }
 
-        artistsList = albumRequestDto.artists().stream().map(artistName -> artistRepository.findByArtistNameIgnoreCase(artistName)
-                        .orElseThrow(() -> new IllegalArgumentException("Artist not found: " + artistName)))
-                        .toList();
+        List<Artist> artistsList = albumRequestDto.artists().stream().map(artistName -> artistRepository.findByArtistNameIgnoreCase(artistName)
+                        .orElseThrow(() -> new ArtistNotFoundException("Artist not found with name: " + artistName))).toList();
 
         return Album.builder()
                 .albumName(albumRequestDto.albumName())

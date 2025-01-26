@@ -19,14 +19,20 @@
     @if(isLoading==false){
       <div class="d-flex flex-row align-items-center col-3 justify-content-around">
         @if (isAuthenticated==false) {
-          <a (click)="navegateToLogin()">Login</a>
-          <a (click)="navegateToRegister()">Registrarse</a>
-        }@else {
-          <p>Bienvendo {{username}}</p>
-          <a>Perfil</a>
-          <div class="profile-image">
-            <img src={{profileImgUrl}} height="100%" style="border-radius: 50%; object-fit: cover;">
+          <div class="d-flex flex-row">
+            <a (click)="navegateToLogin()">Login</a>
+            <a (click)="navegateToRegister()">Registrarse</a>
           </div>
+
+        }@else {
+          <div class="d-flex flex-row">
+            <p>Bienvendo {{username}}</p>
+            <a>Perfil</a>
+            <div class="profile-image">
+              <img src={{profileImgUrl}} height="100%" style="border-radius: 50%; object-fit: cover;">
+            </div>
+          </div>
+
         }
       </div>
     }

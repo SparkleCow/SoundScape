@@ -8,8 +8,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AlbumRepository extends JpaRepository<Album, Long> {
-
-    Page<Album> findAllByCreatedAtDesc(Pageable pageable);
-
+    Page<Album> findByAlbumNameContainingIgnoreCase(String artistName, Pageable pageable);
     Page<Album> findByArtistsArtistNameContainingIgnoreCase(String artistName, Pageable pageable);
 }

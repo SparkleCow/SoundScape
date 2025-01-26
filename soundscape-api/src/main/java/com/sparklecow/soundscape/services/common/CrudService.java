@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface CrudService <Request, Response, Update> {
 
-    Response create(Request request) throws MessagingException;
+    Response create(Request request);
 
     Page<Response> findAll(Pageable pageable);
 

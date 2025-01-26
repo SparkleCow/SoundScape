@@ -12,7 +12,7 @@ public interface UserService extends CrudService<UserRequestDto, UserResponseDto
 
     UserResponseDto getUserInformation(Authentication authentication);
 
-    UserResponseDto createAdmin(UserRequestDto userRequestDto) throws MessagingException;
+    UserResponseDto createAdmin(UserRequestDto userRequestDto);
 
     Page<UserResponseDto> findByUsername(String username, Pageable pageable);
 

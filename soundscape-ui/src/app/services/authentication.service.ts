@@ -41,13 +41,10 @@ export class AuthenticationService {
   }
 
   getUserInformation$(): Observable<UserResponseDto> {
-    return this.httpClient.get<UserResponseDto>(`${this.apiUrl}/user`)
+    return this.httpClient.get<UserResponseDto>(`${this.apiUrl}/user/me`)
       .pipe(
         catchError((error: HttpErrorResponse) => {
-          if (error.status === 401) {
-            this.toastr.error('No hay usuario autenticado');
-          }
-          return throwError(() => new Error('Error al obtener la información del usuario'));
+          return throwError(() => new Error('Error al obtener la información del usuario '+error));
         })
       );
   }

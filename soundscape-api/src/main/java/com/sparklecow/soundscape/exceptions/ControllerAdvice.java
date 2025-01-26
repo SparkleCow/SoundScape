@@ -24,7 +24,7 @@ public class ControllerAdvice {
                         .build());
     }
 
-    @ExceptionHandler(MessagingException.class)
+    @ExceptionHandler(EmailSendingException.class)
     public ResponseEntity<ExceptionResponse> handleMessagingException(MessagingException e){
         return ResponseEntity
                 .status(MESSAGE_ERROR.getHttpStatus())
