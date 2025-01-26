@@ -33,10 +33,11 @@ public class AlbumController {
         return ResponseEntity.ok(albumService.create(albumRequestDto));
     }
 
+
     @GetMapping
     public ResponseEntity<Page<AlbumResponseDto>> findRecentAlbums(@RequestParam(defaultValue = "0", name = "page") Integer page,
                                                                    @RequestParam(required = false) String albumName){
-        if(albumName.isEmpty()) return ResponseEntity.ok(albumService.findAll(PageRequest.of(page, SIZE, Sort.by("createdAt").descending())));
+        if (albumName == null || albumName.isEmpty()) return ResponseEntity.ok(albumService.findAll(PageRequest.of(page, SIZE, Sort.by("createdAt").descending())));
         return ResponseEntity.ok(albumService.findByAlbumNameContaining(albumName, PageRequest.of(page, SIZE)));
     }
 

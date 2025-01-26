@@ -1,6 +1,5 @@
 package com.sparklecow.soundscape.services.common;
 
-import jakarta.mail.MessagingException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

@@ -117,4 +117,26 @@ public class Artist {
         return Objects.equals(id, artist.id);
     }
 
+    @Override
+    public String toString() {
+        return "Artist{" +
+                "id=" + id +
+                ", createdDate=" + createdDate +
+                ", lastModifiedDate=" + lastModifiedDate +
+                ", createdBy=" + createdBy +
+                ", lastModifiedBy=" + lastModifiedBy +
+                ", artistName='" + artistName + '\'' +
+                ", description='" + description + '\'' +
+                ", profileImageUrl='" + profileImageUrl + '\'' +
+                ", bannerImageUrl='" + bannerImageUrl + '\'' +
+                ", debutYear=" + debutYear +
+                ", isVerified=" + isVerified +
+                ", followersCount=" + getFollowersCount() +
+                ", socialMediaUrls=" + socialMediaUrls +
+                ", genres=" + genres +
+                ", user=" + (user != null ? user.getId() : null) +
+                ", albums=" + albums.stream().map(Album::getId).toList() +
+                ", websiteUrl='" + websiteUrl + '\'' +
+                '}';
+    }
 }

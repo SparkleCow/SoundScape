@@ -1,6 +1,6 @@
 package com.sparklecow.soundscape.entities.song;
 
-import com.sparklecow.soundscape.entities.artist.Artist;
+import com.sparklecow.soundscape.entities.album.Album;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,6 +13,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +26,7 @@ import java.util.Map;
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "songs")
 public class Song {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -57,11 +59,6 @@ public class Song {
     @Column(name = "streaming_url")
     private Map<String, String> streamingUrl = new HashMap<>();
 
-    @ManyToMany
-    @JoinTable(
-            name = "song_artists",
-            joinColumns = @JoinColumn(name = "song_id"),
-            inverseJoinColumns = @JoinColumn(name = "artist_id")
-    )
-    private List<Artist> artists;
+    @ManyToOne
+    private Album album;
 }

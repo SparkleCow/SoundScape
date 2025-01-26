@@ -93,9 +93,12 @@ public class JwtFilter extends OncePerRequestFilter {
         String requestURI = request.getRequestURI();
         String httpMethod = request.getMethod();
         return (requestURI.equals("/artist") && httpMethod.equals("GET")) ||
+
                 requestURI.startsWith("/auth/validate-token") ||
                 requestURI.startsWith("/auth/login") ||
-                requestURI.startsWith("/auth/register");
+                requestURI.startsWith("/auth/register") ||
+
+                (requestURI.startsWith("/album") && httpMethod.equals("GET"));
     }
 
     /**

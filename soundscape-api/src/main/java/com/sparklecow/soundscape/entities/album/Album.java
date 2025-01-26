@@ -45,7 +45,7 @@ public class Album {
     @LastModifiedBy
     private Long lastModifiedBy;
 
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false, length = 50)
     private String albumName;
 
     private String coverImgUrl;
@@ -57,12 +57,7 @@ public class Album {
     @ManyToMany(mappedBy = "albums", cascade = CascadeType.PERSIST)
     private List<Artist> artists = new ArrayList<>();
 
-    @ManyToMany
-    @JoinTable(
-            name = "album_songs",
-            joinColumns = @JoinColumn( name = "album_id"),
-            inverseJoinColumns = @JoinColumn( name = "song_id")
-    )
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Song> songs = new ArrayList<>();
 
     @Override

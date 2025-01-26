@@ -4,6 +4,7 @@ import com.sparklecow.soundscape.entities.album.Album;
 import com.sparklecow.soundscape.entities.artist.Artist;
 import com.sparklecow.soundscape.entities.user.User;
 import com.sparklecow.soundscape.exceptions.AlbumNotFoundException;
+import com.sparklecow.soundscape.exceptions.ArtistNotFoundException;
 import com.sparklecow.soundscape.models.album.AlbumRequestDto;
 import com.sparklecow.soundscape.models.album.AlbumResponseDto;
 import com.sparklecow.soundscape.models.album.AlbumUpdateDto;
@@ -31,9 +32,9 @@ public class AlbumServiceImp implements AlbumService{
     @Transactional
     public AlbumResponseDto create(AlbumRequestDto albumRequestDto, User user) {
         Artist artist = user.getArtist();
+        //Album already has the artist since albumMapper linked it
         Album album = albumMapper.toAlbum(albumRequestDto, artist);
         artist.getAlbums().add(album);
-        album.getArtists().add(artist);
         albumRepository.save(album);
         artistRepository.save(artist);
         return albumMapper.toAlbumResponseDto(album);
@@ -42,8 +43,19 @@ public class AlbumServiceImp implements AlbumService{
     /*This method allows to create an album to the logged admin. It won't use the administrator account
     * for linked it, it will require a list of strings in albumRequestDto data that matches with the artist names in database */
     @Override
+    @Transactional
     public AlbumResponseDto create(AlbumRequestDto albumRequestDto) {
-        Album album = albumRepository.save(albumMapper.toAlbum(albumRequestDto));
+
+        List<Artist> artistsList = albumRequestDto.artists().stream()
+                .map(artistName -> artistRepository.findByArtistNameIgnoreCase(artistName)
+                        .orElseThrow(() -> new ArtistNotFoundException("Artist not found with name: " + artistName))).toList();
+
+        Album album = albumMapper.toAlbum(albumRequestDto, artistsList);
+        /*Variable used to put it in a lambda expression.*/
+        Album finalAlbum = album;
+        artistsList.forEach(artist -> artist.getAlbums().add(finalAlbum));
+
+        album = albumRepository.save(album);
         return albumMapper.toAlbumResponseDto(album);
     }
 
