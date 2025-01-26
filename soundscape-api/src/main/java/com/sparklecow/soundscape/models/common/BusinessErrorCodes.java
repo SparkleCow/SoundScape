@@ -21,7 +21,9 @@ public enum BusinessErrorCodes {
     MESSAGE_ERROR(500,  HttpStatus.INTERNAL_SERVER_ERROR, "Error sending message"),
     ROLE_NOT_FOUND(404, HttpStatus.NOT_FOUND, "Role not found"),
     ILLEGAL_OPERATION(400, HttpStatus.BAD_REQUEST, "Illegal operation"),
-    ARTIST_NOT_FOUND(404, HttpStatus.NOT_FOUND, "Artist not found");
+    ARTIST_NOT_FOUND(404, HttpStatus.NOT_FOUND, "Artist not found"),
+    SONG_NOT_FOUND(404, HttpStatus.NOT_FOUND, "Song not found"),
+    ALBUM_NOT_FOUND(404, HttpStatus.NOT_FOUND, "Album not found");
 
     private final int errorCode;
     private final HttpStatus httpStatus;

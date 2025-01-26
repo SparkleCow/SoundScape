@@ -24,6 +24,28 @@ public class ControllerAdvice {
                         .build());
     }
 
+    @ExceptionHandler(SongNotFoundException.class)
+    public ResponseEntity<ExceptionResponse> handleSongNotFoundException(SongNotFoundException e){
+        return ResponseEntity
+                .status(SONG_NOT_FOUND.getHttpStatus())
+                .body(ExceptionResponse.builder()
+                        .businessErrorCode(SONG_NOT_FOUND.getErrorCode())
+                        .businessErrorDescription(SONG_NOT_FOUND.getMessage() + " " +e.getMessage())
+                        .message(e.getMessage())
+                        .build());
+    }
+
+    @ExceptionHandler(AlbumNotFoundException.class)
+    public ResponseEntity<ExceptionResponse> handleAlbumNotFoundException(AlbumNotFoundException e){
+        return ResponseEntity
+                .status(ALBUM_NOT_FOUND.getHttpStatus())
+                .body(ExceptionResponse.builder()
+                        .businessErrorCode(ALBUM_NOT_FOUND.getErrorCode())
+                        .businessErrorDescription(ALBUM_NOT_FOUND.getMessage() + " " +e.getMessage())
+                        .message(e.getMessage())
+                        .build());
+    }
+
     @ExceptionHandler(EmailSendingException.class)
     public ResponseEntity<ExceptionResponse> handleMessagingException(MessagingException e){
         return ResponseEntity

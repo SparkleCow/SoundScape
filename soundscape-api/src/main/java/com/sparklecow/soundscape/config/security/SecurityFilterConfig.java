@@ -50,6 +50,14 @@ public class SecurityFilterConfig {
                         .requestMatchers(HttpMethod.POST, "/album").authenticated()
                         .requestMatchers(HttpMethod.POST, "/album/admin").hasAuthority(ADMIN_ROLE)
 
+                        .requestMatchers(HttpMethod.GET,"/song").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/song/artist").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/song/album").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/song").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/song/admin").hasAuthority(ADMIN_ROLE)
+                        .requestMatchers(HttpMethod.POST, "/song/admin/bulk").hasAuthority(ADMIN_ROLE)
+                        .requestMatchers(HttpMethod.DELETE,"/song/**").hasAuthority(ADMIN_ROLE)
+
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session

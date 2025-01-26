@@ -1,6 +1,7 @@
 package com.sparklecow.soundscape.entities.song;
 
 import com.sparklecow.soundscape.entities.album.Album;
+import com.sparklecow.soundscape.entities.artist.Artist;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -58,6 +59,14 @@ public class Song {
     )
     @Column(name = "streaming_url")
     private Map<String, String> streamingUrl = new HashMap<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "song_artist",
+            joinColumns = @JoinColumn(name = "song_id"),
+            inverseJoinColumns = @JoinColumn(name = "artist_id")
+    )
+    private List<Artist> artists = new ArrayList<>();
 
     @ManyToOne
     private Album album;

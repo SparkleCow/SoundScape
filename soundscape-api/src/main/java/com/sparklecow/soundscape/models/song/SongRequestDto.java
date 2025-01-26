@@ -12,6 +12,6 @@ public record SongRequestDto(
         String lyrics,
         String producer,
         Map<String, String> streamingUrl,
-        String albums
+        String album
 ) {
 }

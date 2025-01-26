@@ -98,7 +98,11 @@ public class JwtFilter extends OncePerRequestFilter {
                 requestURI.startsWith("/auth/login") ||
                 requestURI.startsWith("/auth/register") ||
 
-                (requestURI.startsWith("/album") && httpMethod.equals("GET"));
+                (requestURI.startsWith("/album") && httpMethod.equals("GET")) ||
+
+                (requestURI.startsWith("/song") && httpMethod.equals("GET")) ||
+                requestURI.startsWith("/song/artist") ||
+                requestURI.startsWith("/song/album");
     }
 
     /**
