@@ -2,6 +2,7 @@ package com.sparklecow.soundscape.entities.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sparklecow.soundscape.entities.artist.Artist;
+import com.sparklecow.soundscape.entities.playlist.Playlist;
 import jakarta.persistence.*;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
@@ -87,6 +88,9 @@ public class User implements UserDetails, Principal {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Token> tokens = new ArrayList<>();
+
+    @OneToMany
+    private List<Playlist> playlists = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
