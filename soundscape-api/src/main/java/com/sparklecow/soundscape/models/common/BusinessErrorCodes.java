@@ -23,7 +23,8 @@ public enum BusinessErrorCodes {
     ILLEGAL_OPERATION(400, HttpStatus.BAD_REQUEST, "Illegal operation"),
     ARTIST_NOT_FOUND(404, HttpStatus.NOT_FOUND, "Artist not found"),
     SONG_NOT_FOUND(404, HttpStatus.NOT_FOUND, "Song not found"),
-    ALBUM_NOT_FOUND(404, HttpStatus.NOT_FOUND, "Album not found");
+    ALBUM_NOT_FOUND(404, HttpStatus.NOT_FOUND, "Album not found"),
+    ACCESS_DENIED(403, HttpStatus.FORBIDDEN, "User without sufficient permissions");
 
     private final int errorCode;
     private final HttpStatus httpStatus;

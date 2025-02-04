@@ -9,7 +9,6 @@ import { AuthenticationService } from '../../services/authentication.service';
 })
 export class HeaderComponent implements OnInit{
 
-  title:String = 'SoundScape';
   isAuthenticated: boolean = false;
   isLoading: boolean = true;
   username: string = '';
@@ -26,6 +25,7 @@ export class HeaderComponent implements OnInit{
         this.username = user.username;
         this.profileImgUrl = user.profileImageUrl;
         this.isAuthenticated = true;
+        console.log(this.profileImgUrl)
       },
     });
   }

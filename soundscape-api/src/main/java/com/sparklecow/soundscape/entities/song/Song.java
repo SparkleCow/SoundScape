@@ -1,5 +1,6 @@
 package com.sparklecow.soundscape.entities.song;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sparklecow.soundscape.entities.album.Album;
 import com.sparklecow.soundscape.entities.artist.Artist;
 import jakarta.persistence.*;
@@ -60,6 +61,7 @@ public class Song {
     @Column(name = "streaming_url")
     private Map<String, String> streamingUrl = new HashMap<>();
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name = "song_artist",
@@ -68,6 +70,7 @@ public class Song {
     )
     private List<Artist> artists = new ArrayList<>();
 
+    @JsonIgnore
     @ManyToOne
     private Album album;
 }

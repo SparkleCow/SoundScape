@@ -1,5 +1,6 @@
 package com.sparklecow.soundscape.entities.album;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sparklecow.soundscape.entities.artist.Artist;
 import com.sparklecow.soundscape.entities.song.Song;
 import jakarta.persistence.*;
@@ -54,9 +55,11 @@ public class Album {
 
     private Boolean isExplicit;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "albums", cascade = CascadeType.PERSIST)
     private List<Artist> artists = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Song> songs = new ArrayList<>();
 

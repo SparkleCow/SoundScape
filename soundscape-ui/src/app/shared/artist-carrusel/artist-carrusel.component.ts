@@ -20,6 +20,7 @@ export class ArtistCarruselComponent implements OnInit, OnChanges{
   }
 
   ngOnInit() {
+    console.log("Desde carrusel" + this.artists);
   }
 
   duplicateArtists() {

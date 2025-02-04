@@ -3,6 +3,7 @@ package com.sparklecow.soundscape.exceptions;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.mail.MessagingException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -177,4 +178,16 @@ public class ControllerAdvice {
                         .message(e.getMessage())
                         .build());
     }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ExceptionResponse> handleAccessDeniedExceptionException(    AccessDeniedException e){
+        return ResponseEntity
+                .status(ACCESS_DENIED.getHttpStatus())
+                .body(ExceptionResponse.builder()
+                        .businessErrorCode(ACCESS_DENIED.getErrorCode())
+                        .businessErrorDescription(ACCESS_DENIED.getMessage() + " " +e.getMessage())
+                        .message(e.getMessage())
+                        .build());
+    }
+
 }

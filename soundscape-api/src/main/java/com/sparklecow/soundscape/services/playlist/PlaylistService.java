@@ -12,21 +12,28 @@ import org.springframework.data.domain.Pageable;
 public interface PlaylistService {
 
     PlaylistResponseDto createPlaylist(PlaylistRequestDto playlistRequestDto, User user);
-    PlaylistResponseDto createPlaylist(PlaylistRequestDto playlistRequestDto);
 
     PlaylistResponseDto findPlaylistById(Long id);
+    PlaylistResponseDto findPlaylistByIdAsAdmin(Long id);
+
     PlaylistResponseDto findPlaylistByName(String playlistName);
+    PlaylistResponseDto findPlaylistByNameAsAdmin(String playlistName);
+
     Page<PlaylistNameByOwnerDto> findPlaylistByNameContaining(String playlistName, Pageable pageable);
+    Page<PlaylistNameByOwnerDto> findPlaylistByNameContainingAsAdmin(String playlistName, Pageable pageable);
+
     Page<PlaylistNameByOwnerDto> findPlaylistsByUsername(String username, Pageable pageable);
-    Page<PlaylistNameByOwnerDto> findPlayListsByUser(User user, Pageable pageable);
+    Page<PlaylistNameByOwnerDto> findPlaylistsByUsernameAsAdmin(String username, Pageable pageable);
+
+    Page<PlaylistNameByOwnerDto> findPlaylistsByUser(User user, Pageable pageable);
 
     void changePublicState(Long id, User user);
 
-    Playlist addSongToPlaylist(Long playlistId, Long songId, User user);
-    Playlist removeSongFromPlaylist(Long playlistId, Long songId, User user);
+    void addSongToPlaylist(Long playlistId, Long songId, User user);
+    void removeSongFromPlaylist(Long playlistId, Long songId, User user);
 
-    Playlist addSongToPlaylist(Long playlistId, Long songId);
-    Playlist removeSongFromPlaylist(Long playlistId, Long songId);
+    void addSongToPlaylist(Long playlistId, Long songId);
+    void removeSongFromPlaylist(Long playlistId, Long songId);
 
     void deletePlaylist(Long id, User user);
 

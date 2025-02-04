@@ -58,6 +58,20 @@ public class SecurityFilterConfig {
                         .requestMatchers(HttpMethod.POST, "/song/admin/bulk").hasAuthority(ADMIN_ROLE)
                         .requestMatchers(HttpMethod.DELETE,"/song/**").hasAuthority(ADMIN_ROLE)
 
+                        .requestMatchers(HttpMethod.GET, "/playlist").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/playlist/search").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/playlist/\\d+").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/playlist").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/playlist/admin/\\d+").hasAuthority(ADMIN_ROLE)
+                        .requestMatchers(HttpMethod.GET, "/playlist/admin/search").hasAuthority(ADMIN_ROLE)
+                        .requestMatchers(HttpMethod.GET, "/playlist/me").authenticated()
+                        .requestMatchers(HttpMethod.PATCH, "/playlist/\\d+/public-state").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/playlist/\\d+/songs/\\d+").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/playlist/\\d+/songs/\\d+").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/playlist/admin/\\d+/songs/\\d+").hasAuthority(ADMIN_ROLE)
+                        .requestMatchers(HttpMethod.DELETE, "/playlist/admin/\\d+/songs/\\d+").hasAuthority(ADMIN_ROLE)
+                        .requestMatchers(HttpMethod.DELETE, "/playlist/\\d+").authenticated()
+
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session

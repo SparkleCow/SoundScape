@@ -1,6 +1,7 @@
 package com.sparklecow.soundscape.models.artist;
 
 import com.sparklecow.soundscape.entities.album.Album;
+import com.sparklecow.soundscape.models.album.AlbumArtistResponseDto;
 import com.sparklecow.soundscape.models.common.Genre;
 import lombok.Builder;
 
@@ -29,7 +30,7 @@ public record ArtistResponseDto(
 
         Set<Genre> genres,
 
-        List<Album> albums,
+        List<AlbumArtistResponseDto> albums,
 
         String websiteUrl
 ) {

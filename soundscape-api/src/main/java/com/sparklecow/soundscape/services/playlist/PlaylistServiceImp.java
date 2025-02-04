@@ -14,8 +14,11 @@ import com.sparklecow.soundscape.services.mappers.PlaylistMapper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -30,53 +33,83 @@ public class PlaylistServiceImp implements PlaylistService{
         return PlaylistMapper.toPlaylistResponseDto(playlistRepository.save(playlist));
     }
 
-    /**
-     * This method is executed by administrators to create playlists.
-     * Playlists created through this method are public and not associated with any specific user.
-     * It converts the incoming PlaylistRequestDto to a Playlist entity, saves it,
-     * and then maps the saved entity to a PlaylistResponseDto for the response.
-     */
     @Override
-    public PlaylistResponseDto createPlaylist(PlaylistRequestDto playlistRequestDto) {
-        Playlist playlist = PlaylistMapper.toPlaylist(playlistRequestDto);
-        return PlaylistMapper.toPlaylistResponseDto(playlistRepository.save(playlist));
+    public PlaylistResponseDto findPlaylistById(Long id) {
+        Playlist playlist = playlistRepository.findById(id)
+                .orElseThrow(() -> new PlaylistNotFoundException("Playlist with id: " + id + " not found"));
+        if (!playlist.isPublic()) {
+            throw new OperationNotPermittedException("You are not allowed to access this playlist.");
+        }
+        return PlaylistMapper.toPlaylistResponseDto(playlist);
     }
 
     @Override
-    public PlaylistResponseDto findPlaylistById(Long id) {
+    public PlaylistResponseDto findPlaylistByIdAsAdmin(Long id) {
         return PlaylistMapper.toPlaylistResponseDto(playlistRepository.findById(id)
-                .orElseThrow( ()-> new PlaylistNotFoundException("Playlist with id: "+id+" not found")));
+                .orElseThrow(() -> new PlaylistNotFoundException("Playlist with id: " + id + " not found")));
     }
 
     @Override
     public PlaylistResponseDto findPlaylistByName(String playlistName) {
+        Playlist playlist = playlistRepository.findByPlaylistName(playlistName)
+                .orElseThrow( ()-> new PlaylistNotFoundException("Playlist with name: "+playlistName+" not found"));
+        if(!playlist.isPublic()){
+            throw new OperationNotPermittedException("You are not allowed to access this playlist.");
+        }
+        return PlaylistMapper.toPlaylistResponseDto(playlist);
+    }
+
+    @Override
+    public PlaylistResponseDto findPlaylistByNameAsAdmin(String playlistName) {
         return PlaylistMapper.toPlaylistResponseDto(playlistRepository.findByPlaylistName(playlistName)
                 .orElseThrow( ()-> new PlaylistNotFoundException("Playlist with name: "+playlistName+" not found")));
     }
 
     @Override
     public Page<PlaylistNameByOwnerDto> findPlaylistByNameContaining(String playlistName, Pageable pageable) {
+        Page<Playlist> playlists = playlistRepository.findByPlaylistNameContainingIgnoreCase(playlistName, pageable);
+
+        List<PlaylistNameByOwnerDto> publicPlaylists = playlists.getContent().stream()
+                .filter(Playlist::isPublic)
+                .map(PlaylistMapper::toPlaylistNameByOwnerDto)
+                .toList();
+
+        return new PageImpl<>(publicPlaylists, pageable, publicPlaylists.size());
+    }
+
+    @Override
+    public Page<PlaylistNameByOwnerDto> findPlaylistByNameContainingAsAdmin(String playlistName, Pageable pageable) {
         return playlistRepository.findByPlaylistNameContainingIgnoreCase(playlistName, pageable).map(PlaylistMapper::toPlaylistNameByOwnerDto);
     }
 
     @Override
     public Page<PlaylistNameByOwnerDto> findPlaylistsByUsername(String username, Pageable pageable) {
+        Page<Playlist> playlists = playlistRepository.findByUserUsernameContainingIgnoreCase(username, pageable);
+
+        List<PlaylistNameByOwnerDto> publicPlaylists = playlists.getContent().stream()
+                .filter(Playlist::isPublic)
+                .map(PlaylistMapper::toPlaylistNameByOwnerDto)
+                .toList();
+
+        return new PageImpl<>(publicPlaylists, pageable, publicPlaylists.size());
+    }
+
+    @Override
+    public Page<PlaylistNameByOwnerDto> findPlaylistsByUsernameAsAdmin(String username, Pageable pageable) {
         return playlistRepository.findByUserUsernameContainingIgnoreCase(username, pageable).map(PlaylistMapper::toPlaylistNameByOwnerDto);
     }
 
     @Override
-    public Page<PlaylistNameByOwnerDto> findPlayListsByUser(User user, Pageable pageable) {
+    public Page<PlaylistNameByOwnerDto> findPlaylistsByUser(User user, Pageable pageable) {
         return playlistRepository.findByUserUsernameContainingIgnoreCase(user.getUsername(), pageable).map(PlaylistMapper::toPlaylistNameByOwnerDto);
     }
 
     /**
      * Changes the public state of a playlist identified by its ID.
-     *
      * Retrieve the playlist by ID; throw an exception if not found.
      * Check if the provided user is the owner of the playlist; throw an exception if not.
      * Toggle the public state of the playlist (true -> false, false -> true).
      * Save the updated playlist back to the repository.
-     *
      * Exceptions:
      * - PlaylistNotFoundException: Thrown if the playlist doesn't exist.
      * - OperationNotPermittedException: Thrown if the user is not the playlist owner.
@@ -95,7 +128,7 @@ public class PlaylistServiceImp implements PlaylistService{
 
     @Override
     @Transactional
-    public Playlist addSongToPlaylist(Long playlistId, Long songId, User user) {
+    public void addSongToPlaylist(Long playlistId, Long songId, User user) {
         Playlist playlist = playlistRepository.findById(playlistId)
                 .orElseThrow( ()-> new PlaylistNotFoundException("Playlist with id: "+playlistId+" not found"));
 
@@ -111,12 +144,12 @@ public class PlaylistServiceImp implements PlaylistService{
         }
 
         playlist.getSongs().add(song);
-        return playlistRepository.save(playlist);
+        playlistRepository.save(playlist);
     }
 
     @Override
     @Transactional
-    public Playlist removeSongFromPlaylist(Long playlistId, Long songId, User user) {
+    public void removeSongFromPlaylist(Long playlistId, Long songId, User user) {
         Playlist playlist = playlistRepository.findById(playlistId)
                 .orElseThrow(() -> new PlaylistNotFoundException("Playlist with id: " +playlistId+ " not found"));
 
@@ -132,7 +165,7 @@ public class PlaylistServiceImp implements PlaylistService{
         }
 
         playlist.getSongs().remove(song);
-        return playlistRepository.save(playlist);
+        playlistRepository.save(playlist);
     }
 
     /**
@@ -144,7 +177,7 @@ public class PlaylistServiceImp implements PlaylistService{
      */
     @Override
     @Transactional
-    public Playlist addSongToPlaylist(Long playlistId, Long songId) {
+    public void addSongToPlaylist(Long playlistId, Long songId) {
         Playlist playlist = playlistRepository.findById(playlistId)
                 .orElseThrow(() -> new PlaylistNotFoundException("Playlist with id: " +playlistId+ " not found"));
 
@@ -156,7 +189,7 @@ public class PlaylistServiceImp implements PlaylistService{
         }
 
         playlist.getSongs().add(song);
-        return playlistRepository.save(playlist);
+        playlistRepository.save(playlist);
     }
 
     /**
@@ -168,7 +201,7 @@ public class PlaylistServiceImp implements PlaylistService{
      */
     @Override
     @Transactional
-    public Playlist removeSongFromPlaylist(Long playlistId, Long songId) {
+    public void removeSongFromPlaylist(Long playlistId, Long songId) {
         Playlist playlist = playlistRepository.findById(playlistId)
                 .orElseThrow(() -> new PlaylistNotFoundException("Playlist with id: " +playlistId+ " not found"));
 
@@ -180,7 +213,7 @@ public class PlaylistServiceImp implements PlaylistService{
         }
 
         playlist.getSongs().remove(song);
-        return playlistRepository.save(playlist);
+        playlistRepository.save(playlist);
     }
 
     @Override

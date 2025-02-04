@@ -14,6 +14,7 @@ export class MainComponent implements OnInit{
   constructor(private _artistService: ArtistService){}
 
   ngOnInit(): void {
+    console.log("Desde main" + this.artists);
     this.loadArtist();
   }
 

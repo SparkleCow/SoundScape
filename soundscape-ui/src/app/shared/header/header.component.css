@@ -1,11 +1,42 @@
 .principal-header{
-  background-color: #010D26;
+  background-color: #042c83;
   height: 10vh;
 }
 
 .principal-navbar{
-  background-color: #010D26;
   color: #ffffff
+}
+
+.principal-navbar a{
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.search form{
+  width: 80%;
+}
+
+.searchTerm {
+  width: 100%;
+  border: 3px solid #00B4CC;
+  border-right: none;
+  padding: 5px;
+  border-radius: 5px 0 0 5px;
+  outline: none;
+  color: #9DBFAF;
+  box-sizing: border-box;
+}
+
+.searchButton {
+  width: 40px;
+  border: 1px solid #00B4CC;
+  background: #00B4CC;
+  text-align: center;
+  padding-top: 8px;
+  color: #fff;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+  font-size: 20px;
 }
 
 .profile-image{
@@ -14,4 +45,5 @@
   border-radius: 50%;
   background-color: grey;
 }
+
 

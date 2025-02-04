@@ -6,6 +6,8 @@ import com.sparklecow.soundscape.models.playlist.PlaylistNameByOwnerDto;
 import com.sparklecow.soundscape.models.playlist.PlaylistRequestDto;
 import com.sparklecow.soundscape.models.playlist.PlaylistResponseDto;
 
+import java.util.List;
+
 public class PlaylistMapper {
 
     private PlaylistMapper(){}
