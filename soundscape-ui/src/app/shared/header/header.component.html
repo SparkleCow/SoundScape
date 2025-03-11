@@ -3,7 +3,7 @@
   <nav class="col-10 principal-navbar d-flex flex-row align-items-center">
 
     <div class="d-flex flex-row align-items-center col-6 justify-content-between">
-      <a><h2>SoundScape</h2></a>
+      <a (click)="navegateToMain()"><h2>SoundScape</h2></a>
       <a>Home</a>
       <a>Nuevos artistas</a>
       <a>Nuevos albums</a>
@@ -29,9 +29,10 @@
         }@else {
           <div class="d-flex flex-row align-items-center justify-content-around flex-grow-1">
             <p class="m-0">Bienvenido {{username}}</p>
-            <a class="mx-2">Perfil</a>
+            <a class="profile-information mx-2">Perfil</a>
             <div class="profile-image">
               @if(profileImgUrl !== null && profileImgUrl !== ""){
+                <img src={{profileImgUrl}} height="100%" style="border-radius: 50%; object-fit: cover;">
               }@else{
                 <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"height="100%" style="border-radius: 50%; object-fit: cover;">
               }

@@ -15,6 +15,8 @@ import { ToastrModule } from 'ngx-toastr';
 import { AuthInterceptor } from './core/interceptor/auth.interceptor';
 import { ArtistCarruselComponent } from './shared/artist-carrusel/artist-carrusel.component';
 import { PerfilComponent } from './pages/perfil/perfil.component';
+import { AsideInformationComponent } from './shared/aside-information/aside-information.component';
+import { CarruselComponent } from './shared/carrusel/carrusel.component';
 
 
 @NgModule({
@@ -26,7 +28,9 @@ import { PerfilComponent } from './pages/perfil/perfil.component';
     RegisterComponent,
     ActivationComponent,
     ArtistCarruselComponent,
-    PerfilComponent
+    PerfilComponent,
+    AsideInformationComponent,
+    CarruselComponent
   ],
   imports: [
     BrowserModule,

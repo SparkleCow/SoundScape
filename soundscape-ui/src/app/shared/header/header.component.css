@@ -1,5 +1,5 @@
 .principal-header{
-  background-color: #042c83;
+  background-color: rgb(39, 39, 39);
   height: 10vh;
 }
 
@@ -9,7 +9,11 @@
 
 .principal-navbar a{
   cursor: pointer;
-  text-decoration: none;
+  transition-duration: .5s;
+}
+
+.principal-navbar a:hover{
+  scale: 1.1;
 }
 
 .search form{
@@ -39,6 +43,14 @@
   font-size: 20px;
 }
 
+.searchButton span{
+  transition-duration: .5s;
+}
+
+.searchButton:hover span{
+  scale: 1.2
+}
+
 .profile-image{
   height: 30px;
   width: 30px;
@@ -46,4 +58,8 @@
   background-color: grey;
 }
 
+.profile-information{
+  text-decoration: none;
+  color: white;
+}
 

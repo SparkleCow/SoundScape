@@ -27,5 +27,7 @@ public record SongResponseDto(
 
         String album,
 
+        String albumImage,
+
         List<String> artists
 ){}

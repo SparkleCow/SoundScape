@@ -1,0 +1,55 @@
+.login-form{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 40vw;
+}
+
+.login-form h1{
+  text-align: center;
+  color: white;
+  padding: 20px 0px;
+}
+
+.login-options{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.login-options button{
+  margin: 5px 0;
+}
+
+.form-content{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto;
+}
+
+
+.form-content h3{
+  text-align: center;
+}
+
+span a{
+  color: white;
+}
+
+.btn-primary{
+  background-color: #00B4CC;
+}
+
+.btn-outline-primary{
+  border-color: #00B4CC;
+  color: #00B4CC;
+}
+
+.btn-outline-primary:hover{
+  background-color: #00B4CC;
+  color: white
+}
+
+
+

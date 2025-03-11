@@ -8,7 +8,6 @@ import com.sparklecow.soundscape.models.song.SongResponseDto;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class SongMapper {
 
@@ -43,7 +42,8 @@ public class SongMapper {
                 .producer(song.getProducer())
                 .artists(song.getArtists().stream()
                         .map(Artist::getArtistName)
-                        .collect(Collectors.toList()))
+                        .toList())
+                .albumImage(song.getAlbum().getCoverImgUrl())
                 .build();
     }
 }

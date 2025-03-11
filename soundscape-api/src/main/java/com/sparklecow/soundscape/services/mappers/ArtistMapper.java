@@ -7,9 +7,12 @@ import com.sparklecow.soundscape.models.artist.ArtistResponseDto;
 
 public class ArtistMapper {
 
+    private ArtistMapper(){}
+
     public static ArtistResponseDto toArtistResponseDto(Artist artist){
         return ArtistResponseDto.builder()
                 .id(artist.getId())
+                .artistName(artist.getArtistName())
                 .description(artist.getDescription())
                 .profileImageUrl(artist.getProfileImageUrl())
                 .bannerImageUrl(artist.getBannerImageUrl())

@@ -1,3 +1,4 @@
+import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService } from '../../services/authentication.service';
@@ -12,7 +13,7 @@ import { Router } from '@angular/router';
 export class LoginComponent {
   loginForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private authService: AuthenticationService, private router:Router) {
+  constructor(private fb: FormBuilder, private authService: AuthenticationService, private router:Router, private toastr:ToastrService) {
     this.loginForm = this.fb.group({
       username: ['', [Validators.required]],
       password: ['', [Validators.required]]
@@ -25,16 +26,16 @@ export class LoginComponent {
       this.authService.login$(loginRequest).subscribe({
         next: (response) => {
           console.log('Inicio de sesión exitoso:', response);
-          alert('Bienvenido');
+          this.toastr.success("Bienvenido")
           this.navigateToMain();
         },
         error: (error) => {
           console.error('Error en el inicio de sesión:', error);
-          alert('Usuario o contraseña incorrectos');
+          this.toastr.success('Usuario o contraseña incorrecta')
         }
       });
     } else {
-      alert('Por favor, completa todos los campos correctamente.');
+      this.toastr.success('Por favor, completa todos los campos correctamente.')
     }
   }
 

@@ -1,0 +1,52 @@
+.py-4 {
+  position: relative; /* Hace que los botones se posicionen dentro de este contenedor */
+}
+
+.song-container {
+  background-color: rgb(39, 39, 39);
+  overflow-x: hidden;
+  position: relative;
+  padding: 10px;
+}
+
+.song-card {
+  width: 140px;
+  background-color: #333;
+  color: white;
+  margin-right: 10px;
+  flex-shrink: 0;
+}
+
+.carousel-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  font-size: 30px;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.carousel-button.left {
+  left: 10px;
+}
+
+.carousel-button.right {
+  right: 10px;
+}
+
+
+@media (max-width: 767px) {
+  .song-container {
+    width: 500px;
+  }
+}
+
+@media (max-width: 540px) {
+  .song-container {
+    width: 350px;
+  }
+}

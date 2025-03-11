@@ -10,11 +10,11 @@ import { Component, OnInit } from '@angular/core';
 export class MainComponent implements OnInit{
 
   artists: ArtistResponseDto[] = [];
+  recentSongs: string = "Más recientes";
 
   constructor(private _artistService: ArtistService){}
 
   ngOnInit(): void {
-    console.log("Desde main" + this.artists);
     this.loadArtist();
   }
 

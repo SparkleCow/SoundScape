@@ -1,0 +1,42 @@
+.general-container {
+  display: grid;
+  gap: 20px;
+}
+
+.general-container main{
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+  .general-container {
+    grid-template-columns: 450px 1fr; /* aside y main */
+  }
+
+  .general-container aside {
+    grid-column: 1 / 2;
+  }
+
+  .general-container main {
+    grid-column: 2 / 3;
+  }
+}
+
+@media (max-width: 767px) {
+  .general-container {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "main"
+      "aside";
+  }
+
+  .general-container main {
+    grid-area: main;
+  }
+
+  .general-container aside {
+    grid-area: aside;
+  }
+}

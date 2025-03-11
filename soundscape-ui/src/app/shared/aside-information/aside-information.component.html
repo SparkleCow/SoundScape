@@ -1,0 +1,25 @@
+<div class="d-flex flex-column py-4">
+  <h3>Artistas a los que seguir</h3>
+  <hr>
+  @for(artist of artists; track $index ){
+    <div class="artist-container">
+      <div class="image">
+        <img src={{artist.profileImageUrl}}/>
+      </div>
+      <h6>{{artist.artistName}}</h6>
+      <div class="followers d-flex flex-row">
+        <span class="material-icons me-3">groups</span>
+        <p>{{artist.followers}}</p>
+      </div>
+      <div class="follow d-flex justify-content-center align-items-center">
+        <button><span class="material-icons me-2">person_add</span> Seguir</button>
+      </div>
+    </div>
+  }
+  <h3 class="pt-2">Pásate al móvil</h3>
+  <hr>
+  <div class="download d-flex flex-row justify-content-around">
+    <img src="https://storage.googleapis.com/pe-portal-consumer-prod-wagtail-static/images/play_metadata_image.original.png?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=wagtail%40pe-portal-consumer-prod.iam.gserviceaccount.com%2F20250204%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20250204T145553Z&X-Goog-Expires=86400&X-Goog-SignedHeaders=host&X-Goog-Signature=adb81828dc2eacd0930f8fc1ce86dac2d51234b612ec450a89341f24d19c56b7d11d79c2bdffe17f6beef60076ad505e98ed66c84d81f94f882e3abeb0557783469bd496efcc21fc8952d9be80e599a772d34c6e94b575d0c90a6b70669e3b3b8206072cee3413c426fa5e017b3db4b07812ba92e3cd46048aaf14a754ef999b2d58818841f39605634d39c12e385f0fd525ab1b30785f9f3cd284122c48fe6d9bec1fb9debf2e5a754d5d31c8d8409bb224bb479581f43cbb59aa10eb6d4256878383cee852e8ed745ec9d25d30b34f4fbe0afc60fb7e0a801d31718a0cd887fcd4822f04cf23a8ca8afb4f69252f5f53e9c4ed724e1b1a136fe34eed58c9e1" alt="">
+  </div>
+</div>
+

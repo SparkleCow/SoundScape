@@ -1,0 +1,24 @@
+<div class="py-4 ps-5">
+  <h3>{{title}}</h3>
+  <div class="mt-4 position-relative">
+    <button class="carousel-button left move-button" (click)="moveLeft(songContainer)">&#60;</button>
+    <div class="song-container d-flex flex-row" #songContainer>
+      <div class="d-flex flex-row mt-4">
+        @for(song of songs; track $index){
+          <div class="song-card position-relative">
+            <div class="position-relative">
+              <img src={{song.albumImage}} class="card-img-top" alt="..." style="height: 140px; object-fit: cover; width: 100%;">
+              <span class="song-duration badge bg-dark position-absolute bottom-0 end-0 m-1 px-1 py-1 text-white">{{song.duration}}</span>
+            </div>
+            <div class="song-body p-2">
+              <h5 class="card-title">{{song.songName}}</h5>
+              <p class="card-text text-truncate">{{song.artists}}</p>
+              <p class="card-text text-truncate">{{song.releaseDate}}</p>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+    <button class="carousel-button right move-button" (click)="moveRight(songContainer)">&#62;</button>
+  </div>
+</div>

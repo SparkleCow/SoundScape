@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication.service';
 
@@ -15,7 +15,8 @@ export class HeaderComponent implements OnInit{
   profileImgUrl: string = '';
 
   constructor(private router:Router,
-              private authenticationService: AuthenticationService
+              private authenticationService: AuthenticationService,
+              private cdr: ChangeDetectorRef
   ){}
 
   ngOnInit(): void {
@@ -25,8 +26,12 @@ export class HeaderComponent implements OnInit{
         this.username = user.username;
         this.profileImgUrl = user.profileImageUrl;
         this.isAuthenticated = true;
-        console.log(this.profileImgUrl)
+        this.cdr.detectChanges();
       },
+      error: () => {
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      }
     });
   }
 
@@ -36,5 +41,9 @@ export class HeaderComponent implements OnInit{
 
   navegateToRegister(){
     this.router.navigate(["/register"]);
+  }
+
+  navegateToMain(){
+    this.router.navigate(["/"]);
   }
 }

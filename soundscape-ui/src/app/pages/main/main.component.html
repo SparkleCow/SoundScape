@@ -1,2 +1,10 @@
-<p>main works!</p>
 <app-artist-carrusel [artists]="artists"></app-artist-carrusel>
+<div class="general-container container">
+  <aside class="information">
+    <app-aside-information [artists]="artists.slice(0, 5)"></app-aside-information>
+  </aside>
+  <main class="main">
+    <app-carrusel [title]="recentSongs"></app-carrusel>
+    <app-carrusel [title]="recentSongs"></app-carrusel>
+  </main>
+</div>
