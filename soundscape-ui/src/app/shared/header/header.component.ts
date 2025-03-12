@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication.service';
+import { Role } from '../../models/Role';
 
 @Component({
   selector: 'app-header',
@@ -13,6 +14,8 @@ export class HeaderComponent implements OnInit{
   isLoading: boolean = true;
   username: string = '';
   profileImgUrl: string = '';
+  role: Role[] = [];
+  isAdmin: boolean = false;
 
   constructor(private router:Router,
               private authenticationService: AuthenticationService,
@@ -21,18 +24,27 @@ export class HeaderComponent implements OnInit{
 
   ngOnInit(): void {
     this.isLoading = false;
-    this.authenticationService.getUserInformation$().subscribe({
-      next: (user) => {
+    this.authenticationService.user$.subscribe(user => {
+      if (user) {
         this.username = user.username;
         this.profileImgUrl = user.profileImageUrl;
         this.isAuthenticated = true;
-        this.cdr.detectChanges();
-      },
-      error: () => {
-        this.isLoading = false;
-        this.cdr.detectChanges();
+        this.role = user.role;
+        this.checkRoles();
+      } else {
+        this.isAuthenticated = false;
       }
+      this.cdr.detectChanges();
     });
+  }
+
+  logout(){
+    this.authenticationService.logout();
+    window.location.reload();
+  }
+
+  checkRoles(){
+    this.isAdmin = this.role.some(rol => rol.roleName === "ADMIN");
   }
 
   navegateToLogin(){

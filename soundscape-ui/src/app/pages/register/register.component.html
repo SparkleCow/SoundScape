@@ -1,83 +1,83 @@
-<section class="h-100 bg-dark">
-  <div class="container py-5 h-100">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col">
-        <div class="card card-registration my-4">
-          <div class="row g-0">
-            <div class="col-xl-6 d-none d-xl-block">
-              <img src="https://cdn.qwenlm.ai/output/1fe7dfd6-93b1-49a3-981d-c3c3cbbf039a/t2i/f9b6b22c-0fe3-4f4e-829c-be730e74d951/11923436-2b71-45f9-8bb5-b9c539d7e996.png"
-                alt="Sample photo" class="img-fluid"
-                style="border-top-left-radius: .25rem; border-bottom-left-radius: .25rem; height: 100%;"/>
+<section class="h-100 bg-dark d-flex justify-content-center">
+  <section class="register-form">
+    <h1>Bienvenido a SoundScape 😃</h1>
+    <div class="img-container">
+      <img src="https://cdn.qwenlm.ai/output/1fe7dfd6-93b1-49a3-981d-c3c3cbbf039a/t2i/f9b6b22c-0fe3-4f4e-829c-be730e74d951/11923436-2b71-45f9-8bb5-b9c539d7e996.png">
+    </div>
+    <div class="form-content col-xl-6">
+      <div class="card-body p-md-1 text-white">
+        <h3 class="mb-5 text-uppercase">Registrarse</h3>
+        <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+          <div class="row">
+            <div class="col-md-6 mb-4">
+              <div data-mdb-input-init class="form-outline">
+                <input type="text" id="firstName" formControlName="firstName" class="form-control form-control-lg" />
+                <label class="form-label" for="firstName">Nombres</label>
+              </div>
             </div>
-            <div class="col-xl-6">
-              <div class="card-body p-md-5 text-black">
-                <h3 class="mb-5 text-uppercase">Registro de usuario</h3>
-
-                <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
-                  <div class="row">
-                    <div class="col-md-6 mb-4">
-                      <div data-mdb-input-init class="form-outline">
-                        <input type="text" id="firstName" formControlName="firstName" class="form-control form-control-lg" />
-                        <label class="form-label" for="firstName">Nombres</label>
-                      </div>
-                    </div>
-                    <div class="col-md-6 mb-4">
-                      <div data-mdb-input-init class="form-outline">
-                        <input type="text" id="lastName" formControlName="lastName" class="form-control form-control-lg" />
-                        <label class="form-label" for="lastName">Apellidos</label>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-md-6 mb-4">
-                      <div data-mdb-input-init class="form-outline">
-                        <input type="text" id="username" formControlName="username" class="form-control form-control-lg" />
-                        <label class="form-label" for="username">Nombre de usuario</label>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div data-mdb-input-init class="form-outline mb-4">
-                    <input type="email" id="email" formControlName="email" class="form-control form-control-lg" />
-                    <label class="form-label" for="email">Correo</label>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-md-6 mb-4">
-                      <div data-mdb-input-init class="form-outline">
-                        <input type="password" id="password" formControlName="password" class="form-control form-control-lg" />
-                        <label class="form-label" for="password">Contraseña</label>
-                      </div>
-                    </div>
-                    <div class="col-md-6 mb-4">
-                      <div data-mdb-input-init class="form-outline">
-                        <input type="date" id="birthDate" formControlName="birthDate" class="form-control form-control-lg" />
-                        <label class="form-label" for="birthDate">Fecha de nacimiento</label>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="mb-4">
-                    <select formControlName="country" class="form-select">
-                      <option value="Colombia">Colombia</option>
-                      <option value="Argentina">Argentina</option>
-                      <option value="México">México</option>
-                      <option value="Chile">Chile</option>
-                    </select>
-                  </div>
-
-                  <div class="d-flex justify-content-end pt-3">
-                    <button type="reset" data-mdb-button-init data-mdb-ripple-init class="btn btn-light btn-lg">Reset</button>
-                    <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-warning btn-lg ms-2">Registrar</button>
-                  </div>
-                </form>
-
+            <div class="col-md-6 mb-4">
+              <div data-mdb-input-init class="form-outline">
+                <input type="text" id="lastName" formControlName="lastName" class="form-control form-control-lg" />
+                <label class="form-label" for="lastName">Apellidos</label>
               </div>
             </div>
           </div>
-        </div>
+
+          <div class="row">
+            <div class="col-md-12 mb-4">
+              <div data-mdb-input-init class="form-outline">
+                <input type="text" id="username" formControlName="username" class="form-control form-control-lg" />
+                <label class="form-label" for="username">Nombre de usuario</label>
+              </div>
+            </div>
+          </div>
+
+          <div data-mdb-input-init class="form-outline mb-4">
+            <input type="email" id="email" formControlName="email" class="form-control form-control-lg" />
+            <label class="form-label" for="email">Correo</label>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12 mb-4">
+              <div data-mdb-input-init class="form-outline">
+                <input type="password" id="password" formControlName="password" class="form-control form-control-lg" />
+                <label class="form-label" for="password">Contraseña</label>
+              </div>
+            </div>
+            <div class="col-md-12 mb-4">
+              <div data-mdb-input-init class="form-outline">
+                <input type="password" id="password" formControlName="password" class="form-control form-control-lg" />
+                <label class="form-label" for="password">Contraseña</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <div data-mdb-input-init class="form-outline">
+              <input type="date" id="birthDate" formControlName="birthDate" class="form-control form-control-lg" />
+              <label class="form-label" for="birthDate">Fecha de nacimiento</label>
+            </div>
+          </div>
+          <div class="mb-4">
+            <select formControlName="country" class="form-select">
+              <option value="Colombia">Colombia</option>
+              <option value="Argentina">Argentina</option>
+              <option value="México">México</option>
+              <option value="Chile">Chile</option>
+            </select>
+          </div>
+
+          <div class="d-flex justify-content-end pt-3 pb-5">
+            <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg ms-2">Iniciar sesión</button>
+          </div>
+          <br><br>
+          <span><a href="">¿Ya tienes una cuenta?</a></span>
+        </form>
       </div>
     </div>
-  </div>
+
+  </section>
 </section>
+
+
+

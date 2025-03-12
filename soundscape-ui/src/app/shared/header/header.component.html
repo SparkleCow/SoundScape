@@ -29,7 +29,22 @@
         }@else {
           <div class="d-flex flex-row align-items-center justify-content-around flex-grow-1">
             <p class="m-0">Bienvenido {{username}}</p>
-            <a class="profile-information mx-2">Perfil</a>
+
+            <a class="profile-information mx-2" data-bs-toggle="collapse" href="#profileMenu" role="button" aria-expanded="false" aria-controls="profileMenu">
+              Perfil ⏷
+            </a>
+
+            <div class="collapse mt-1" id="profileMenu">
+              <div class="card card-body shadow-sm border-0 rounded-3 p-2">
+                <a class="dropdown-item">👤 Ver Perfil</a>
+                @if(isAdmin){
+                  <a class="dropdown-item">✏️ Menú</a>
+                }
+                <div class="dropdown-divider"></div>
+                <a (click)="logout()" class="dropdown-item">🚪 Cerrar Sesión</a>
+              </div>
+            </div>
+
             <div class="profile-image">
               @if(profileImgUrl !== null && profileImgUrl !== ""){
                 <img src={{profileImgUrl}} height="100%" style="border-radius: 50%; object-fit: cover;">

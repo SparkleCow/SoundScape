@@ -3,7 +3,7 @@ import { UserRequestDto } from './../models/UserRequestDto';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment';
-import { catchError, Observable, tap, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
 import { AuthenticationResponseDto } from '../models/AuthenticationResponseDto';
 import { UserResponseDto } from '../models/UserResponseDto';
 import { TokenRequestDto } from '../models/TokenRequestDto';
@@ -16,6 +16,8 @@ export class AuthenticationService {
 
   private readonly apiUrl: string;
   private readonly authenticationPath = '/auth';
+  private userSubject = new BehaviorSubject<UserResponseDto | null>(null);
+  user$ = this.userSubject.asObservable();
 
   constructor(private httpClient: HttpClient,
               private toastr: ToastrService){
@@ -24,12 +26,16 @@ export class AuthenticationService {
 
   login$(authenticationRequestDto: AuthenticationRequestDto): Observable<AuthenticationResponseDto> {
     return this.httpClient.post<AuthenticationResponseDto>(`${this.apiUrl}${this.authenticationPath}/login`, authenticationRequestDto).pipe(
-      tap( (response) => {localStorage.setItem("token", response.token)})
+      tap((response) => {
+        localStorage.setItem("token", response.token);
+        this.getUserInformation$().subscribe(user => this.userSubject.next(user));
+      })
     );
   }
 
   logout(): void {
     localStorage.removeItem("token");
+    this.userSubject.next(null);
   }
 
   register$(userRequestDto: UserRequestDto): Observable<UserResponseDto> {
@@ -41,12 +47,10 @@ export class AuthenticationService {
   }
 
   getUserInformation$(): Observable<UserResponseDto> {
-    return this.httpClient.get<UserResponseDto>(`${this.apiUrl}/user/me`)
-      .pipe(
-        catchError((error: HttpErrorResponse) => {
-          return throwError(() => new Error('Error al obtener la información del usuario '+error));
-        })
-      );
+    return this.httpClient.get<UserResponseDto>(`${this.apiUrl}/user/me`).pipe(
+      tap(user => this.userSubject.next(user)),
+      catchError((error: HttpErrorResponse) => throwError(() => new Error('Error al obtener la información del usuario ' + error)))
+    );
   }
 
   isAuthenticated(): boolean {
