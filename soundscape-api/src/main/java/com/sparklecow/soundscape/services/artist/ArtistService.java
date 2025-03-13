@@ -23,6 +23,8 @@ public interface ArtistService extends CrudService<ArtistRequestDto, ArtistRespo
 
     ArtistResponseDto getArtistAccount(User user);
 
+    ArtistResponseDto findArtistById(Long id);
+
     Artist findArtistByName(String artistName);
 
     void addFollower(Long id, User user);

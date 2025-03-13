@@ -26,4 +26,8 @@ export class ArtistService {
     }
     return this.httpClient.get<Page<ArtistResponseDto>>(url);
   }
+
+  findArtist$(artistId: number): Observable<ArtistResponseDto>{
+    return this.httpClient.get<ArtistResponseDto>(`${this.apiUrl}/artist/${artistId}`);
+  }
 }

@@ -1,0 +1,30 @@
+<div class="container-fluid d-flex artist-content justify-content-center">
+  <div class="col-6 d-flex flex-column">
+    <div class="banner-img">
+      <img src={{artist.bannerImageUrl}} alt="">
+    </div>
+    <h5>{{artist.artistName}}</h5>
+    <div class="profile-img">
+      <img src={{artist.profileImageUrl}} alt="">
+    </div>
+    <p>{{artist.debutYear}}</p>
+    <p>{{artist.description}}</p>
+    <p>{{artist.followers}}</p>
+    <p>{{artist.genres}}</p>
+    <p>{{artist.isVerified}}</p>
+    <p>{{artist.socialMediaUrls}}</p>
+    <p>{{artist.websiteUrl}}</p>
+
+    <div class="albums-container">
+      @for (album of artist.albums; track $index) {
+        <hr>
+        <div class="d-flex">
+          <div class="album-img  me-4">
+            <img src={{album.coverImgUrl}} style="width: 50px; height: 50px;"/>
+          </div>
+          <p>{{album.albumName}}</p>
+        </div>
+      }
+    </div>
+  </div>
+</div>

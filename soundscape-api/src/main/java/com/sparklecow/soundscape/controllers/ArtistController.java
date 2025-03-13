@@ -4,7 +4,6 @@ import com.sparklecow.soundscape.entities.user.User;
 import com.sparklecow.soundscape.models.artist.ArtistRequestDto;
 import com.sparklecow.soundscape.models.artist.ArtistResponseDto;
 import com.sparklecow.soundscape.services.artist.ArtistService;
-import com.sparklecow.soundscape.services.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -38,6 +37,11 @@ public class ArtistController {
     public ResponseEntity<ArtistResponseDto> createArtist(@RequestBody ArtistRequestDto artistRequestDto){
         ArtistResponseDto artistResponseDto = artistService.create(artistRequestDto);
         return ResponseEntity.ok(artistResponseDto);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ArtistResponseDto> findArtistById(@PathVariable Long id){
+        return ResponseEntity.ok(artistService.findArtistById(id));
     }
 
     /*This allows find artist based on their name. It will return a list of matches*/

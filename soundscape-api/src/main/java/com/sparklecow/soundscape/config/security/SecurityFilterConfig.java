@@ -44,6 +44,7 @@ public class SecurityFilterConfig {
                         .requestMatchers("/artist/me").authenticated()
                         .requestMatchers(HttpMethod.POST, "/artist").authenticated()
                         .requestMatchers(HttpMethod.GET, "/artist").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/artist/*").permitAll()
 
                         .requestMatchers(HttpMethod.GET,"/album").permitAll()
                         .requestMatchers(HttpMethod.GET,"/album/artist").permitAll()

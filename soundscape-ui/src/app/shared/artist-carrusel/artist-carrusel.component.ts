@@ -1,5 +1,6 @@
 import { Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { ArtistResponseDto } from '../../models/ArtistResponseDto';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-artist-carrusel',
@@ -11,7 +12,9 @@ export class ArtistCarruselComponent implements OnInit, OnChanges{
   @ViewChild('carrusel', { static: true }) carrusel!: ElementRef;
   @Input() artists: ArtistResponseDto[] = [];
   duplicatedArtists: ArtistResponseDto[] = [];
-  scrollDirection: 'left' | 'right' = 'right'; // Variable para manejar la dirección del scroll
+  scrollDirection: 'left' | 'right' = 'right';
+
+  constructor(private router:Router){}
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['artists'] && this.artists.length > 0) {
@@ -27,6 +30,10 @@ export class ArtistCarruselComponent implements OnInit, OnChanges{
     this.duplicatedArtists = [...this.artists, ...this.artists];
   }
 
+  navigateAtArtist(artistId: number){
+    this.router.navigate([`/artist/${artistId}`])
+  }
+
   startAutoScroll() {
     const carrusel = this.carrusel.nativeElement;
     const scrollAmount = 20;
@@ -36,7 +43,6 @@ export class ArtistCarruselComponent implements OnInit, OnChanges{
       if (this.scrollDirection === 'right') {
         carrusel.scrollLeft += scrollAmount;
 
-        // Si alcanza el final, cambia la dirección de desplazamiento a izquierda
         if (carrusel.scrollLeft + carrusel.clientWidth >= carrusel.scrollWidth) {
           setTimeout(() => {
             carrusel.scrollLeft = 0;
@@ -45,7 +51,6 @@ export class ArtistCarruselComponent implements OnInit, OnChanges{
       } else {
         carrusel.scrollLeft -= scrollAmount;
 
-        // Si alcanza el principio, cambia la dirección de desplazamiento a derecha
         if (carrusel.scrollLeft <= 0) {
           this.scrollDirection = 'right';
         }

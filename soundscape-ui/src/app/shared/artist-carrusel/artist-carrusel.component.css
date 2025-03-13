@@ -30,7 +30,7 @@
   height: 50px;
   width: 50px;
   border-radius: 50%;
-  transition-duration: 500ms;
+  transition-duration: 400ms;
 }
 
 .play-button a{
@@ -41,6 +41,7 @@
 .play-button:hover{
   background-color: rgb(0, 161, 182);
   scale: 1.1;
+  cursor: pointer;
 }
 
 @keyframes scroll {

@@ -2,6 +2,7 @@ package com.sparklecow.soundscape.services.artist;
 
 import com.sparklecow.soundscape.entities.artist.Artist;
 import com.sparklecow.soundscape.entities.user.User;
+import com.sparklecow.soundscape.exceptions.ArtistNotFoundException;
 import com.sparklecow.soundscape.models.artist.ArtistRequestDto;
 import com.sparklecow.soundscape.models.artist.ArtistResponseDto;
 import com.sparklecow.soundscape.models.artist.ArtistUpdateDto;
@@ -51,10 +52,15 @@ public class ArtistServiceImp implements ArtistService {
     }
 
     @Override
+    public ArtistResponseDto findArtistById(Long id) {
+        return ArtistMapper.toArtistResponseDto(artistRepository.findById(id).orElseThrow(() ->
+                new ArtistNotFoundException("Artist with id: "+id+" not found")));
+    }
+
+    @Override
     public Artist findArtistByName(String artistName) {
         return artistRepository.findByArtistNameIgnoreCase(artistName).orElseThrow(() -> new RuntimeException(""));
     }
-
 
     @Override
     @PreAuthorize("hasRole('ADMIN')")
@@ -130,7 +136,9 @@ public class ArtistServiceImp implements ArtistService {
 
     @Override
     public ArtistResponseDto updateById(ArtistUpdateDto artistUpdateDto, Long id) {
-        return null;
+        Artist artist = artistRepository.findById(id).orElseThrow(() -> new ArtistNotFoundException("Artist with id: "+id+" not found"));
+        Artist artistUpdated = artistRepository.save(ArtistMapper.updateArtist(artist, artistUpdateDto));
+        return ArtistMapper.toArtistResponseDto(artistUpdated);
     }
 
     @Override

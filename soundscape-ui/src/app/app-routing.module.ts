@@ -5,13 +5,15 @@ import { RegisterComponent } from './pages/register/register.component';
 import { LoginComponent } from './pages/login/login.component';
 import { ActivationComponent } from './pages/activation/activation.component';
 import { PerfilComponent } from './pages/perfil/perfil.component';
+import { ArtistInformationComponent } from './shared/artist-information/artist-information.component';
 
 const routes: Routes = [
   {path: "", component: MainComponent},
   {path: "register", component: RegisterComponent},
   {path: "login", component: LoginComponent},
   {path: "activate-token", component: ActivationComponent},
-  {path: "perfil", component: PerfilComponent}
+  {path: "perfil", component: PerfilComponent},
+  {path: "artist/:id", component: ArtistInformationComponent}
 ];
 
 @NgModule({

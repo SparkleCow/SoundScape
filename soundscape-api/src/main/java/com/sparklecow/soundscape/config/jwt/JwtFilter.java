@@ -92,7 +92,8 @@ public class JwtFilter extends OncePerRequestFilter {
     private boolean isPublicEndpoint(HttpServletRequest request) {
         String requestURI = request.getRequestURI();
         String httpMethod = request.getMethod();
-        return (requestURI.equals("/artist") && httpMethod.equals("GET")) ||
+        return (
+                requestURI.startsWith("/artist") && httpMethod.equals("GET") ||
 
                 requestURI.startsWith("/auth/validate-token") ||
                 requestURI.startsWith("/auth/login") ||
@@ -106,7 +107,8 @@ public class JwtFilter extends OncePerRequestFilter {
 
                 //(requestURI.matches("/playlist/\\d+") && httpMethod.equals("GET")) ||
                 (requestURI.startsWith("/playlist/search") && httpMethod.equals("GET")) ||
-                (requestURI.startsWith("/playlist") && httpMethod.equals("GET"));
+                (requestURI.startsWith("/playlist") && httpMethod.equals("GET"))
+        );
     }
 
     /**

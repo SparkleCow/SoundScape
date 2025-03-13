@@ -5,10 +5,12 @@
         <img src={{artist.profileImageUrl}} class="card-img-top" alt="..."
              style="height: 200px; object-fit: cover;">
         <div class="card-body">
-          <h5 class="card-title">{{artist.artistName}}</h5>
+          <h5 class="card-title">
+            {{artist.artistName}}
+          </h5>
           <p class="card-text text-truncate">{{artist.description}}</p>
           <div class="play-button">
-            <a href="">
+            <a (click)="navigateAtArtist(artist.id)">
               <span class="material-symbols-outlined">
                 double_arrow
               </span>

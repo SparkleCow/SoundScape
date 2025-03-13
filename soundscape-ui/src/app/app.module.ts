@@ -18,6 +18,7 @@ import { PerfilComponent } from './pages/perfil/perfil.component';
 import { AsideInformationComponent } from './shared/aside-information/aside-information.component';
 import { CarruselComponent } from './shared/carrusel/carrusel.component';
 import { FooterComponent } from './shared/footer/footer.component';
+import { ArtistInformationComponent } from './shared/artist-information/artist-information.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { FooterComponent } from './shared/footer/footer.component';
     PerfilComponent,
     AsideInformationComponent,
     CarruselComponent,
-    FooterComponent
+    FooterComponent,
+    ArtistInformationComponent
   ],
   imports: [
     BrowserModule,
