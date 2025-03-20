@@ -54,7 +54,9 @@ public class ArtistMapper {
         if (artistUpdateDto.profileImageUrl() != null && !artistUpdateDto.profileImageUrl().isEmpty()) {
             artist.setProfileImageUrl(artistUpdateDto.profileImageUrl());
         }
-        if (artistUpdateDto.bannerImageUrl() != null && !artistUpdateDto.bannerImageUrl().isEmpty()) {
+        if (artistUpdateDto.bannerImageUrl() != null && !artistUpdateDto.bannerImageUrl().isEmpty()) {  
+            System.out.println("Holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+            System.out.println("Holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
             artist.setBannerImageUrl(artistUpdateDto.bannerImageUrl());
         }
         if (artistUpdateDto.socialMediaUrls() != null && !artistUpdateDto.socialMediaUrls().isEmpty()) {

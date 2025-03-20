@@ -105,9 +105,8 @@ public class JwtFilter extends OncePerRequestFilter {
                 requestURI.startsWith("/song/album") ||
                 (requestURI.startsWith("/song") && httpMethod.equals("GET")) ||
 
-                //(requestURI.matches("/playlist/\\d+") && httpMethod.equals("GET")) ||
-                (requestURI.startsWith("/playlist/search") && httpMethod.equals("GET")) ||
-                (requestURI.startsWith("/playlist") && httpMethod.equals("GET"))
+                (requestURI.startsWith("/playlist/") && !requestURI.contains("admin") && !requestURI.contains("me")) && httpMethod.equals("GET") ||
+                (requestURI.startsWith("/playlist") && httpMethod.equals("GET") && !requestURI.contains("me"))
         );
     }
 

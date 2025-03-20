@@ -3,6 +3,7 @@ package com.sparklecow.soundscape.controllers;
 import com.sparklecow.soundscape.entities.user.User;
 import com.sparklecow.soundscape.models.artist.ArtistRequestDto;
 import com.sparklecow.soundscape.models.artist.ArtistResponseDto;
+import com.sparklecow.soundscape.models.artist.ArtistUpdateDto;
 import com.sparklecow.soundscape.services.artist.ArtistService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -65,6 +66,18 @@ public class ArtistController {
                                             Authentication authentication){
         artistService.addFollower(id, (User) authentication.getPrincipal());
         return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ArtistResponseDto> updateArtist(@PathVariable Long id,
+                                                          @RequestBody ArtistUpdateDto artistUpdateDto){
+        return ResponseEntity.ok(artistService.updateById(artistUpdateDto, id));
+    }
+
+    @PutMapping("/me")
+    public ResponseEntity<ArtistResponseDto> updateArtistAsUser(Authentication authentication,
+                                                                @RequestBody ArtistUpdateDto artistUpdateDto){
+        return ResponseEntity.ok(artistService.updateArtistAsUser((User) authentication, artistUpdateDto));
     }
 
     @DeleteMapping("/{id}/followers")

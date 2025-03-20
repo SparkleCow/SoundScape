@@ -6,6 +6,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { ActivationComponent } from './pages/activation/activation.component';
 import { PerfilComponent } from './pages/perfil/perfil.component';
 import { ArtistInformationComponent } from './shared/artist-information/artist-information.component';
+import { InformationComponent } from './pages/information/information.component';
 
 const routes: Routes = [
   {path: "", component: MainComponent},
@@ -13,7 +14,8 @@ const routes: Routes = [
   {path: "login", component: LoginComponent},
   {path: "activate-token", component: ActivationComponent},
   {path: "perfil", component: PerfilComponent},
-  {path: "artist/:id", component: ArtistInformationComponent}
+  {path: "artist/:id", component: InformationComponent},
+  {path: "album/:id", component: InformationComponent},
 ];
 
 @NgModule({

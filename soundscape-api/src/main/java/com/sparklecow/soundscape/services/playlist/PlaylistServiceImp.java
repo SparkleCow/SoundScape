@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -100,7 +101,9 @@ public class PlaylistServiceImp implements PlaylistService{
     }
 
     @Override
-    public Page<PlaylistNameByOwnerDto> findPlaylistsByUser(User user, Pageable pageable) {
+    public Page<PlaylistNameByOwnerDto> findPlaylistsByUser(Authentication authentication, Pageable pageable) {
+        User user = (User) authentication.getPrincipal();
+        System.out.println(user.getUsername());
         return playlistRepository.findByUserUsernameContainingIgnoreCase(user.getUsername(), pageable).map(PlaylistMapper::toPlaylistNameByOwnerDto);
     }
 

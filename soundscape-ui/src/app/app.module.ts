@@ -19,6 +19,8 @@ import { AsideInformationComponent } from './shared/aside-information/aside-info
 import { CarruselComponent } from './shared/carrusel/carrusel.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { ArtistInformationComponent } from './shared/artist-information/artist-information.component';
+import { InformationComponent } from './pages/information/information.component';
+import { PlaylistComponent } from './shared/playlist/playlist.component';
 
 
 @NgModule({
@@ -34,7 +36,9 @@ import { ArtistInformationComponent } from './shared/artist-information/artist-i
     AsideInformationComponent,
     CarruselComponent,
     FooterComponent,
-    ArtistInformationComponent
+    ArtistInformationComponent,
+    InformationComponent,
+    PlaylistComponent
   ],
   imports: [
     BrowserModule,

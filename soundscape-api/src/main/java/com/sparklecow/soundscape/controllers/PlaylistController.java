@@ -29,7 +29,6 @@ public class PlaylistController {
 
     @GetMapping("/{id}")
     public ResponseEntity<PlaylistResponseDto> findPlaylistById(@PathVariable Long id) {
-        System.out.print("Entramos la conca de la lora");
         return ResponseEntity.ok(playlistService.findPlaylistById(id));
     }
 
@@ -38,9 +37,15 @@ public class PlaylistController {
         return ResponseEntity.ok(playlistService.findPlaylistByIdAsAdmin(id));
     }
 
-    @GetMapping("/search")
+    @GetMapping("/complete-search")
     public ResponseEntity<PlaylistResponseDto> findPlaylistByName(@RequestParam String playlistName) {
         return ResponseEntity.ok(playlistService.findPlaylistByName(playlistName));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<Page<PlaylistNameByOwnerDto>> findPlaylistByNameContaining(@RequestParam String playlistName,
+                                                                            @RequestParam(defaultValue = "0") Integer page) {
+        return ResponseEntity.ok(playlistService.findPlaylistByNameContaining(playlistName, PageRequest.of(page, SIZE, Sort.by("playlistName"))));
     }
 
     @GetMapping("/admin/search")
@@ -65,9 +70,10 @@ public class PlaylistController {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<Page<PlaylistNameByOwnerDto>> findPlaylistsByUser(
-            @RequestParam(defaultValue = "0") Integer page, Authentication authentication) {
-        return ResponseEntity.ok(playlistService.findPlaylistsByUser((User) authentication.getPrincipal(),
+    public ResponseEntity<Page<PlaylistNameByOwnerDto>> findPlaylistsByUser(Authentication authentication,
+                                                                            @RequestParam(required = false, defaultValue = "0") Integer page) {
+        System.out.println("Entramooos");
+        return ResponseEntity.ok(playlistService.findPlaylistsByUser(authentication,
                 PageRequest.of(page, SIZE, Sort.by("playlistName"))));
     }
 

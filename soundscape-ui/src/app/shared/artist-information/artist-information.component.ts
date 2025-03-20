@@ -21,6 +21,7 @@ export class ArtistInformationComponent implements OnInit{
     this.artistService.findArtist$(this.artistId).subscribe({
       next: (artist) => {
         this.artist = artist;
+        console.log(this.artist)
       }
     });
   }

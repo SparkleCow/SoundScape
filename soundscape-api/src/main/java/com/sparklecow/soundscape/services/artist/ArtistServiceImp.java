@@ -135,10 +135,20 @@ public class ArtistServiceImp implements ArtistService {
     }
 
     @Override
+    @Transactional
     public ArtistResponseDto updateById(ArtistUpdateDto artistUpdateDto, Long id) {
         Artist artist = artistRepository.findById(id).orElseThrow(() -> new ArtistNotFoundException("Artist with id: "+id+" not found"));
         Artist artistUpdated = artistRepository.save(ArtistMapper.updateArtist(artist, artistUpdateDto));
         return ArtistMapper.toArtistResponseDto(artistUpdated);
+    }
+
+    @Override
+    public ArtistResponseDto updateArtistAsUser(User user, ArtistUpdateDto artistUpdateDto) {
+        if (user.getArtist() == null) {
+            throw new IllegalArgumentException("The user does not have an artist linked.");
+        }
+        Artist artist = user.getArtist();
+        return ArtistMapper.toArtistResponseDto(artistRepository.save(ArtistMapper.updateArtist(artist, artistUpdateDto)));
     }
 
     @Override

@@ -47,6 +47,7 @@ public class Artist {
     @Column(name = "artist_name", length = 30, nullable = false, unique = true)
     private String artistName;
 
+    @Column(length = 500)
     private String description;
 
     private String profileImageUrl;

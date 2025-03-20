@@ -1,18 +1,23 @@
-<div class="container-fluid d-flex artist-content justify-content-center">
-  <div class="col-6 d-flex flex-column">
+<div class="container-fluid d-flex artist-content justify-content-start">
+  <div class="col-12 d-flex flex-column">
     <div class="banner-img">
-      <img src={{artist.bannerImageUrl}} alt="">
+      @if (artist.bannerImageUrl == null || artist.bannerImageUrl.trim() == ""){
+        <img src="https://static.vecteezy.com/system/resources/previews/011/000/296/non_2x/abstract-music-soundwave-banner-design-free-vector.jpg">
+      }@else{
+        <img src={{artist.bannerImageUrl}} alt="">
+      }
+      <h3>{{artist.artistName}}</h3>
+      <p>{{artist.debutYear}}</p>
     </div>
-    <h5>{{artist.artistName}}</h5>
-    <div class="profile-img">
-      <img src={{artist.profileImageUrl}} alt="">
-    </div>
-    <p>{{artist.debutYear}}</p>
-    <p>{{artist.description}}</p>
-    <p>{{artist.followers}}</p>
-    <p>{{artist.genres}}</p>
-    <p>{{artist.isVerified}}</p>
-    <p>{{artist.socialMediaUrls}}</p>
+    <section class="artist-information d-flex">
+      <div class="profile-img">
+        <img src={{artist.profileImageUrl}} alt="">
+      </div>
+      <div class="artist-description d-flex">
+        <p>{{artist.description}}</p>
+      </div>
+    </section>
+
     <p>{{artist.websiteUrl}}</p>
 
     <div class="albums-container">

@@ -8,6 +8,7 @@ import com.sparklecow.soundscape.models.playlist.PlaylistResponseDto;
 import com.sparklecow.soundscape.models.playlist.PlaylistUpdateDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 
 public interface PlaylistService {
 
@@ -25,7 +26,7 @@ public interface PlaylistService {
     Page<PlaylistNameByOwnerDto> findPlaylistsByUsername(String username, Pageable pageable);
     Page<PlaylistNameByOwnerDto> findPlaylistsByUsernameAsAdmin(String username, Pageable pageable);
 
-    Page<PlaylistNameByOwnerDto> findPlaylistsByUser(User user, Pageable pageable);
+    Page<PlaylistNameByOwnerDto> findPlaylistsByUser(Authentication authentication, Pageable pageable);
 
     void changePublicState(Long id, User user);
 
