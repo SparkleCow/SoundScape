@@ -21,6 +21,9 @@ import { FooterComponent } from './shared/footer/footer.component';
 import { ArtistInformationComponent } from './shared/artist-information/artist-information.component';
 import { InformationComponent } from './pages/information/information.component';
 import { PlaylistComponent } from './shared/playlist/playlist.component';
+import { PlaylistSongsComponent } from './shared/playlist-songs/playlist-songs.component';
+import { AlbumComponent } from './shared/album/album.component';
+import { PlayerComponent } from './shared/player/player.component';
 
 
 @NgModule({
@@ -38,7 +41,10 @@ import { PlaylistComponent } from './shared/playlist/playlist.component';
     FooterComponent,
     ArtistInformationComponent,
     InformationComponent,
-    PlaylistComponent
+    PlaylistComponent,
+    PlaylistSongsComponent,
+    AlbumComponent,
+    PlayerComponent
   ],
   imports: [
     BrowserModule,

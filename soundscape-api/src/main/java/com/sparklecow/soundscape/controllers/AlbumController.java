@@ -5,6 +5,7 @@ import com.sparklecow.soundscape.models.album.AlbumRequestDto;
 import com.sparklecow.soundscape.models.album.AlbumResponseDto;
 import com.sparklecow.soundscape.services.album.AlbumService;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -33,12 +34,16 @@ public class AlbumController {
         return ResponseEntity.ok(albumService.create(albumRequestDto));
     }
 
-
     @GetMapping
     public ResponseEntity<Page<AlbumResponseDto>> findRecentAlbums(@RequestParam(defaultValue = "0", name = "page") Integer page,
                                                                    @RequestParam(required = false) String albumName){
         if (albumName == null || albumName.isEmpty()) return ResponseEntity.ok(albumService.findAll(PageRequest.of(page, SIZE, Sort.by("createdAt").descending())));
         return ResponseEntity.ok(albumService.findByAlbumNameContaining(albumName, PageRequest.of(page, SIZE)));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<AlbumResponseDto> findAlbumById(@PathVariable Long id){
+        return ResponseEntity.ok(albumService.findById(id));
     }
 
     @GetMapping("/artist")

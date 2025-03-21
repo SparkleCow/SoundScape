@@ -16,6 +16,7 @@ const routes: Routes = [
   {path: "perfil", component: PerfilComponent},
   {path: "artist/:id", component: InformationComponent},
   {path: "album/:id", component: InformationComponent},
+  {path: "playlist/:id", component: InformationComponent}
 ];
 
 @NgModule({

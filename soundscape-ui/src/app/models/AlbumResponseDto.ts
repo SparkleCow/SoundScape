@@ -1,3 +1,5 @@
+import { Song } from "./SongResponseDto";
+
 export interface AlbumResponseDto {
   id: number;
   albumName: string;
@@ -8,9 +10,3 @@ export interface AlbumResponseDto {
   songs: Song[];
 }
 
-export interface Song {
-  id: number;
-  title: string;
-  duration: number;
-  explicit: boolean;
-}

@@ -1,0 +1,21 @@
+<div class="album-container">
+  <header class="d-flex fluid-container">
+    <img src={{album.coverImgUrl}} alt="" style="max-width: 300px; height: auto;">
+    <h2>{{album.albumName}}</h2>
+  </header>
+  @for (song of songs; track $index) {
+    <hr/>
+    <div class="d-flex flex-row">
+      <img src={{song.albumImage}} alt="">
+      <p>{{song.songName}}</p>
+      <p>{{song.artists}}</p>
+      <p>{{song.duration}}</p>
+      <span class="material-symbols-outlined">
+        add
+      </span>
+      <span class="material-symbols-outlined">
+        play_arrow
+        </span>
+    </div>
+  }
+</div>

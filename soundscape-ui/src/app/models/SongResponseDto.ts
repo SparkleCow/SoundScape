@@ -1,12 +1,12 @@
 export interface Song {
   id: number;
   songName: string;
-  releaseDate: string; // O usa Date si lo vas a convertir
+  releaseDate: string;
   duration: string;
   isExplicit: boolean;
   lyrics: string;
   producer: string;
-  streamingUrl: { [key: string]: string }; // Claves dinámicas para múltiples plataformas
+  streamingUrl: { [key: string]: string };
   album: string;
   albumImage: string;
   artists: string[];

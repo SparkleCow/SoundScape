@@ -15,7 +15,11 @@ export class AlbumService {
         this.apiUrl = environment.apiUrl
   }
 
-  findRecentAlbums$():Observable<AlbumResponseDto[]>{
+  /*findRecentAlbums$():Observable<AlbumResponseDto[]>{
     return this.httpClient.get<AlbumResponseDto[]>(`${this.apiUrl}`)
+  }*/
+
+  findAlbumById$(id:number):Observable<AlbumResponseDto>{
+    return this.httpClient.get<AlbumResponseDto>(`${this.apiUrl}/album/${id}`)
   }
 }
