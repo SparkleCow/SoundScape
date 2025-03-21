@@ -18,4 +18,5 @@ public interface SongService extends CrudService<SongRequestDto, SongResponseDto
     Page<SongResponseDto> findByArtistName(String albumName, Pageable pageable);
     SongResponseDto create(SongRequestDto songRequestDto, User user);
     List<SongResponseDto> create(Collection<SongRequestDto> songs);
+    SongResponseDto updateSongAsUser(User user, SongUpdateDto songUpdateDto, Long id);
 }

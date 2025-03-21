@@ -4,6 +4,7 @@ import com.sparklecow.soundscape.entities.album.Album;
 import com.sparklecow.soundscape.entities.song.Song;
 import com.sparklecow.soundscape.entities.user.User;
 import com.sparklecow.soundscape.exceptions.AlbumNotFoundException;
+import com.sparklecow.soundscape.exceptions.IllegalOperationException;
 import com.sparklecow.soundscape.exceptions.OperationNotPermittedException;
 import com.sparklecow.soundscape.exceptions.SongNotFoundException;
 import com.sparklecow.soundscape.models.song.SongRequestDto;
@@ -103,7 +104,27 @@ public class SongServiceImp implements SongService{
 
     @Override
     public SongResponseDto updateById(SongUpdateDto songUpdateDto, Long id) {
-        return null;
+        Song song = songRepository.findById(id)
+                .orElseThrow(()-> new SongNotFoundException("Song with id: "+id+" not found"));
+        Song songUpdated = SongMapper.updateSongFromDto(song, songUpdateDto);
+        return SongMapper.toSongResponseDto(songUpdated);
+    }
+
+
+    @Override
+    public SongResponseDto updateSongAsUser(User user, SongUpdateDto songUpdateDto, Long id) {
+        Song song = songRepository.findById(id)
+                .orElseThrow(()-> new SongNotFoundException("Song with id: "+id+" not found"));
+        String userArtistName = user.getArtist().getArtistName();
+
+        boolean isUserArtistInAlbum = song.getAlbum().getArtists()
+                .stream()
+                .anyMatch(artist -> artist.getArtistName().equals(userArtistName));
+
+        if (!isUserArtistInAlbum) {
+            throw new IllegalOperationException("You are not authorized to update this song.");
+        }
+        return SongMapper.toSongResponseDto(songRepository.save(SongMapper.updateSongFromDto(song, songUpdateDto)));
     }
 
     @Override

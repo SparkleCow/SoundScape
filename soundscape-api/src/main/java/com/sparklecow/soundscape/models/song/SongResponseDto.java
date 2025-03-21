@@ -23,7 +23,7 @@ public record SongResponseDto(
 
         String producer,
 
-        Map<String, String> streamingUrl,
+        String streamingUrl,
 
         String album,
 

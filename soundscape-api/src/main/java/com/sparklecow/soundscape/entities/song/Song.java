@@ -53,13 +53,8 @@ public class Song {
 
     private String producer;
 
-    @ElementCollection
-    @CollectionTable(
-            name = "streaming_urls",
-            joinColumns = @JoinColumn(name = "song_id")
-    )
     @Column(name = "streaming_url")
-    private Map<String, String> streamingUrl = new HashMap<>();
+    private String streamingUrl;
 
     @JsonIgnore
     @ManyToMany

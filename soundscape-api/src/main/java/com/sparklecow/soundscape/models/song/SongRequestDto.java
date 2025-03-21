@@ -11,7 +11,7 @@ public record SongRequestDto(
         Boolean isExplicit,
         String lyrics,
         String producer,
-        Map<String, String> streamingUrl,
+        String streamingUrl,
         String album
 ) {
 }

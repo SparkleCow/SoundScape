@@ -3,6 +3,7 @@ package com.sparklecow.soundscape.controllers;
 import com.sparklecow.soundscape.entities.user.User;
 import com.sparklecow.soundscape.models.song.SongRequestDto;
 import com.sparklecow.soundscape.models.song.SongResponseDto;
+import com.sparklecow.soundscape.models.song.SongUpdateDto;
 import com.sparklecow.soundscape.services.songs.SongService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -58,6 +59,21 @@ public class SongController {
     public ResponseEntity<Page<SongResponseDto>> findByArtistName(@RequestParam(defaultValue = "0") Integer page,
                                                                  @RequestParam(required = true) String artistName){
         return ResponseEntity.ok(songService.findByArtistName(artistName, PageRequest.of(page, SIZE, Sort.by("createdAt").descending())));
+    }
+
+    @PutMapping("/admin/{id}")
+    public ResponseEntity<SongResponseDto> updateSongByAdmin(@RequestBody SongUpdateDto songUpdateDto,
+                                                             @PathVariable Long id) {
+        SongResponseDto updatedSong = songService.updateById(songUpdateDto, id);
+        return ResponseEntity.ok(updatedSong);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<SongResponseDto> updateSongAsUser(@RequestBody SongUpdateDto songUpdateDto,
+                                                            @PathVariable Long id,
+                                                            Authentication authentication) {
+        SongResponseDto updatedSong = songService.updateSongAsUser((User) authentication.getPrincipal(), songUpdateDto, id);
+        return ResponseEntity.ok(updatedSong);
     }
 
     @DeleteMapping("/{id}")

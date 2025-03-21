@@ -61,6 +61,8 @@ public class SecurityFilterConfig {
                         .requestMatchers(HttpMethod.POST, "/song/admin").hasAuthority(ADMIN_ROLE)
                         .requestMatchers(HttpMethod.POST, "/song/admin/bulk").hasAuthority(ADMIN_ROLE)
                         .requestMatchers(HttpMethod.DELETE,"/song/**").hasAuthority(ADMIN_ROLE)
+                        .requestMatchers(HttpMethod.PUT,"/song/admin").hasAuthority(ADMIN_ROLE)
+                        .requestMatchers(HttpMethod.PUT,"/song/**").authenticated()
 
                         .requestMatchers(HttpMethod.GET, "/playlist/admin/*").hasAuthority(ADMIN_ROLE)
                         .requestMatchers(HttpMethod.POST, "/playlist/admin/*").hasAuthority(ADMIN_ROLE)

@@ -13,9 +13,10 @@
       <span class="material-symbols-outlined">
         add
       </span>
-      <span class="material-symbols-outlined">
+      <span (click)="playSong(song)" class="material-symbols-outlined">
         play_arrow
-        </span>
+      </span>
     </div>
   }
+  <app-player [streamingUrl]="selectedTrackUrl"></app-player>
 </div>

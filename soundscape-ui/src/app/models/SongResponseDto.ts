@@ -6,7 +6,7 @@ export interface Song {
   isExplicit: boolean;
   lyrics: string;
   producer: string;
-  streamingUrl: { [key: string]: string };
+  streamingUrl: string;
   album: string;
   albumImage: string;
   artists: string[];

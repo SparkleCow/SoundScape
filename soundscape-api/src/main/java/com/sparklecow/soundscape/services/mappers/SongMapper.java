@@ -5,6 +5,7 @@ import com.sparklecow.soundscape.entities.artist.Artist;
 import com.sparklecow.soundscape.entities.song.Song;
 import com.sparklecow.soundscape.models.song.SongRequestDto;
 import com.sparklecow.soundscape.models.song.SongResponseDto;
+import com.sparklecow.soundscape.models.song.SongUpdateDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,5 +46,30 @@ public class SongMapper {
                         .toList())
                 .albumImage(song.getAlbum().getCoverImgUrl())
                 .build();
+    }
+
+    public static Song updateSongFromDto(Song song, SongUpdateDto songDto) {
+        if (songDto.songName() != null) {
+            song.setSongName(songDto.songName());
+        }
+        if (songDto.releaseDate() != null) {
+            song.setReleaseDate(songDto.releaseDate());
+        }
+        if (songDto.duration() != null) {
+            song.setDuration(songDto.duration());
+        }
+        if (songDto.isExplicit() != null) {
+            song.setIsExplicit(songDto.isExplicit());
+        }
+        if (songDto.lyrics() != null) {
+            song.setLyrics(songDto.lyrics());
+        }
+        if (songDto.producer() != null) {
+            song.setProducer(songDto.producer());
+        }
+        if (songDto.streamingUrl() != null) {
+            song.setStreamingUrl(songDto.streamingUrl());
+        }
+        return song;
     }
 }

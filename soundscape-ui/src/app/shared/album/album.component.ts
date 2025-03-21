@@ -26,7 +26,14 @@ export class AlbumComponent implements OnInit{
       next: (album) => {
         this.album = album;
         this.songs = album.songs;
+        console.log(this.songs);
       }
     });
+  }
+
+  playSong(song: Song){
+    console.log("Hola")
+    this.selectedTrackUrl = song.streamingUrl;
+    console.log(this.selectedTrackUrl)
   }
 }
