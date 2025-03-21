@@ -106,10 +106,8 @@ public class SongServiceImp implements SongService{
     public SongResponseDto updateById(SongUpdateDto songUpdateDto, Long id) {
         Song song = songRepository.findById(id)
                 .orElseThrow(()-> new SongNotFoundException("Song with id: "+id+" not found"));
-        Song songUpdated = SongMapper.updateSongFromDto(song, songUpdateDto);
-        return SongMapper.toSongResponseDto(songUpdated);
+        return SongMapper.toSongResponseDto(songRepository.save(SongMapper.updateSongFromDto(song, songUpdateDto)));
     }
-
 
     @Override
     public SongResponseDto updateSongAsUser(User user, SongUpdateDto songUpdateDto, Long id) {

@@ -1,10 +1,10 @@
-<div class="player-container" *ngIf="streamingUrl">
+<div class="player-container" *ngIf="sanitizedUrl">
   <iframe
-    [src]="streamingUrl"
+    [src]="sanitizedUrl"
     width="100%"
-    height="100%"
+    height="auto"
     frameborder="0"
     allowtransparency="true"
-    allow="encrypted-media">
+    allow="autoplay">
   </iframe>
 </div>

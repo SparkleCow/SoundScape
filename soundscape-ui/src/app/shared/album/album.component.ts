@@ -32,8 +32,6 @@ export class AlbumComponent implements OnInit{
   }
 
   playSong(song: Song){
-    console.log("Hola")
     this.selectedTrackUrl = song.streamingUrl;
-    console.log(this.selectedTrackUrl)
   }
 }
