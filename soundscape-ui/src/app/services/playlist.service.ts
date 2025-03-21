@@ -21,4 +21,10 @@ export class PlaylistService {
   findMyPlaylist$(): Observable<Page<PlaylistNameByOwnerDto>> {
       return this.httpClient.get<Page<PlaylistNameByOwnerDto>>(`${this.apiUrl}/playlist/me`);
   }
+
+  findGeneralPlaylist$(): Observable<Page<PlaylistNameByOwnerDto>> {
+    return this.httpClient.get<Page<PlaylistNameByOwnerDto>>(`${this.apiUrl}/playlist?username=Admin`);
 }
+}
+
+

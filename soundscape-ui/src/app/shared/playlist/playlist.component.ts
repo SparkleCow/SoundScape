@@ -10,7 +10,10 @@ import { PlaylistService } from '../../services/playlist.service';
 })
 export class PlaylistComponent implements OnInit{
 
+  generalPlaylist: PlaylistNameByOwnerDto[] = [];
+  userPlaylists: PlaylistNameByOwnerDto[] = [];
   playlists: PlaylistNameByOwnerDto[] = [];
+  isAuthenticated: boolean = false;
 
   constructor(private authenticationService:AuthenticationService,
               private playlistService: PlaylistService
@@ -20,9 +23,18 @@ export class PlaylistComponent implements OnInit{
   ngOnInit(): void {
     if (this.authenticationService.isAuthenticated()) {
       this.playlistService.findMyPlaylist$().subscribe({
-        next: (playlist) => this.playlists = playlist.content,
+        next: (playlist) => this.userPlaylists= playlist.content,
         error: err => console.error(err)
       });
     }
+    this.playlistService.findGeneralPlaylist$().subscribe({
+      next: (playlist) => {
+        this.generalPlaylist = playlist.content,
+        this.playlists = this.userPlaylists.concat(this.generalPlaylist)
+      },
+      error: err => console.error(err)
+    });
+
+
   }
 }

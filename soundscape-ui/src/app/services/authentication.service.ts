@@ -54,7 +54,17 @@ export class AuthenticationService {
   }
 
   isAuthenticated(): boolean {
-    return !!localStorage.getItem("token");
+    const token = localStorage.getItem("token");
+    if (!token) return false;
+    try {
+      const payloadBase64 = token.split(".")[1];
+      const decodedPayload = JSON.parse(atob(payloadBase64));
+      const currentTime = Math.floor(Date.now() / 1000);
+      return decodedPayload.exp > currentTime;
+    } catch (error) {
+      console.error("Error al decodificar el token", error);
+      return false;
+    }
   }
 
   get token(){

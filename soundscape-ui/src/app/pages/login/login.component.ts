@@ -25,7 +25,6 @@ export class LoginComponent {
       const loginRequest: AuthenticationRequestDto = this.loginForm.value;
       this.authService.login$(loginRequest).subscribe({
         next: (response) => {
-          console.log('Inicio de sesión exitoso:', response);
           this.toastr.success("Bienvenido")
           this.navigateToMain();
         },
