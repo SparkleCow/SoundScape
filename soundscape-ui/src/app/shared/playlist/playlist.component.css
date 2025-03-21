@@ -1,4 +1,19 @@
+
+
 .playlist-container{
   background-color: rgb(39, 39, 39);
   color: white;
+  border-left: 1px solid gray;
+  min-height: 90vh;
+  height: 100%;
+}
+
+.playlist{
+  padding: 20px;
+  height: 50px;
+  width: 100%;
+}
+
+.playlist h6{
+  padding-left: 10px;
 }
