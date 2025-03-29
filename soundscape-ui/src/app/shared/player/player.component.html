@@ -1,10 +1,3 @@
-<div class="player-container" *ngIf="sanitizedUrl">
-  <iframe
-    [src]="sanitizedUrl"
-    width="100%"
-    height="auto"
-    frameborder="0"
-    allowtransparency="true"
-    allow="autoplay">
-  </iframe>
+<div *ngIf="videoUrl" class="player-container">
+  <div #youtubePlayer></div>
 </div>
